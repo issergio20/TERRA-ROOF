@@ -460,27 +460,20 @@ button { font: inherit; }
 .split__head { position: sticky; top: calc(clamp(56px, 4.44vw, 104px) + 32px); }
 .split__head .section__title { margin-bottom: 0; }
 
-/* мини-заголовок «01 Название» под заголовком раздела */
+/* мини-заголовок «—— 01 Название» над заголовком раздела */
 .eyebrow {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: clamp(16px, 1.39vw, 32px);
-  margin-bottom: clamp(40px, 4.44vw, 128px);
-  font-size: clamp(11px, 0.83vw, 17px);
-  font-weight: 600;
+  gap: 12px;
+  margin-bottom: clamp(14px, 1.25vw, 28px);
+  font-size: clamp(11px, 0.76vw, 15px);
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--on-dark-muted);
 }
+.eyebrow::before { content: ""; width: clamp(24px, 2.22vw, 56px); height: 1px; background: var(--accent); }
 .eyebrow span { color: var(--accent); }
-.eyebrow::before { content: ""; width: clamp(24px, 2.22vw, 56px); height: 1px; background: var(--accent); order: 1; }
-.section__title:has(+ .eyebrow),
-.cases__title:has(+ .eyebrow) { margin-bottom: 0; }
-.split__head .eyebrow,
-.services__heading .eyebrow,
-.about__text .eyebrow,
-.contact__info .eyebrow { margin-bottom: 0; }
 .split__head .btn-ghost { margin-top: clamp(32px, 2.78vw, 72px); }
 
 .problem__text,
