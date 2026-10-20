@@ -213,7 +213,7 @@ button { font: inherit; }
 .hero__title {
   font-size: clamp(36px, 5.56vw, 168px);
   font-weight: 500;
-  line-height: 0.95;
+  line-height: 1.15;
   letter-spacing: -0.03em;
   text-transform: uppercase;
 }
@@ -278,7 +278,7 @@ button { font: inherit; }
   margin-bottom: clamp(40px, 5vw, 140px);
   font-size: clamp(30px, 4.17vw, 120px);
   font-weight: 500;
-  line-height: 0.98;
+  line-height: 1.15;
   letter-spacing: -0.03em;
   text-transform: uppercase;
 }
@@ -627,7 +627,7 @@ button { font: inherit; }
   padding-right: 48px;
   font-size: clamp(26px, 2.08vw, 48px);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
@@ -735,7 +735,7 @@ body.modal-open { overflow: hidden; }
   padding-right: 48px;
   font-size: clamp(26px, 2.36vw, 64px);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
