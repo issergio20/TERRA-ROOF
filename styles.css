@@ -569,7 +569,7 @@ html.has-cursor .cursor { display: block; }
 .sticky-cta { display: none; }
 
 /* ===== Планшет ===== */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .contacts__phone { display: none; }
 }
 
@@ -1042,7 +1042,8 @@ html.has-cursor .cursor { display: block; }
 }
 .footer__bottom a:hover { color: var(--accent); }
 
-@media (max-width: 1200px) {
+/* 1024, а не 1200: ноутбук 1440px с масштабом Windows 125% отдаёт сайту ~1150px */
+@media (max-width: 1024px) {
   .problems,
   .services,
   .whys,
