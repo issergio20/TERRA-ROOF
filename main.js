@@ -359,3 +359,53 @@ bindLeadForm(leadForm, () => {
   leadForm.querySelector(".lead-form__fields").hidden = true;
   leadForm.querySelector(".lead-form__success").hidden = false;
 });
+
+// Шапка: после прокрутки первого экрана получает тёмную подложку
+const header = document.querySelector(".header");
+const updateHeader = () => header.classList.toggle("is-scrolled", scrollY > 40);
+addEventListener("scroll", updateHeader, { passive: true });
+updateHeader();
+
+// Лента услуг: стрелки, перетаскивание мышью; на телефоне — обычная прокрутка пальцем
+const servicesTrack = document.querySelector(".services__track");
+const servicesButtons = document.querySelectorAll(".services__nav [data-scroll]");
+
+function updateServicesNav() {
+  const max = servicesTrack.scrollWidth - servicesTrack.clientWidth - 2;
+  servicesButtons.forEach((b) => {
+    b.disabled = b.dataset.scroll < 0 ? servicesTrack.scrollLeft <= 2 : servicesTrack.scrollLeft >= max;
+  });
+}
+
+servicesButtons.forEach((b) =>
+  b.addEventListener("click", () => {
+    const card = servicesTrack.querySelector(".service");
+    const step = card.offsetWidth + parseFloat(getComputedStyle(card.parentElement).columnGap || 0);
+    servicesTrack.scrollBy({ left: step * Number(b.dataset.scroll), behavior: "smooth" });
+  })
+);
+servicesTrack.addEventListener("scroll", updateServicesNav, { passive: true });
+addEventListener("resize", updateServicesNav);
+updateServicesNav();
+
+let drag = null;
+servicesTrack.addEventListener("pointerdown", (e) => {
+  if (e.pointerType !== "mouse" || e.button !== 0) return;
+  drag = { x: e.clientX, left: servicesTrack.scrollLeft, moved: false };
+});
+addEventListener("pointermove", (e) => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x;
+  if (!drag.moved && Math.abs(dx) < 5) return;
+  drag.moved = true;
+  servicesTrack.classList.add("is-dragging");
+  servicesTrack.scrollLeft = drag.left - dx;
+});
+addEventListener("pointerup", () => {
+  if (!drag) return;
+  const wasMoved = drag.moved;
+  drag = null;
+  servicesTrack.classList.remove("is-dragging");
+  // после перетаскивания не считаем отпускание кликом
+  if (wasMoved) servicesTrack.addEventListener("click", (e) => e.preventDefault(), { capture: true, once: true });
+});

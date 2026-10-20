@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600;700&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
 
@@ -106,53 +106,60 @@
       </div>
     </section>
 
-    <!-- Ошибки подрядчиков. Тексты блоков ниже — черновик: в ТЗ есть только структура и факты -->
+    <!-- Ошибки подрядчиков. Тексты блоков ниже — черновик: в ТЗ есть только структура и факты.
+         Сетка «заголовок слева (закреплён) — контент справа» -->
     <section class="section" id="problems">
-      <div class="container">
-        <h2 class="section__title">
-          <span class="section__title-main">Ошибки подрядчиков,</span>
-          <span class="section__title-sub">за&nbsp;которые платит владелец</span>
-        </h2>
-        <ul class="problems">
-          <li class="problem">
-            <span class="problem__num">01</span>
-            <h3 class="problem__title">Протечки в&nbsp;первый&nbsp;же сезон</h3>
-            <p class="problem__text">Швы и&nbsp;примыкания сделаны «на&nbsp;глаз»: вода находит путь к&nbsp;утеплителю и&nbsp;потолку.</p>
-          </li>
-          <li class="problem">
-            <span class="problem__num">02</span>
-            <h3 class="problem__title">Плесень и&nbsp;сырость под кровлей</h3>
-            <p class="problem__text">Нет пароизоляции или вентиляции — влага копится в&nbsp;пироге, утеплитель намокает и&nbsp;гниёт.</p>
-          </li>
-          <li class="problem">
-            <span class="problem__num">03</span>
-            <h3 class="problem__title">Испорченный фасад</h3>
-            <p class="problem__text">Неверно устроены водосток и&nbsp;свесы: вода течёт по&nbsp;стенам, оставляя потёки и&nbsp;разрушая отделку.</p>
-          </li>
-          <li class="problem">
-            <span class="problem__num">04</span>
-            <h3 class="problem__title">Переделка за&nbsp;свой счёт</h3>
-            <p class="problem__text">Дешёвые материалы и&nbsp;нарушенная технология: через пару лет кровлю снимают и&nbsp;делают заново.</p>
-          </li>
-        </ul>
+      <div class="container split">
+        <div class="split__head">
+          <h2 class="section__title">
+            <span class="section__title-main">Ошибки подрядчиков,</span>
+            <span class="section__title-sub">за&nbsp;которые платит владелец</span>
+          </h2>
+        </div>
+        <div class="split__body">
+          <ol class="problems">
+            <li class="problem">
+              <span class="problem__num">01</span>
+              <h3 class="problem__title">Протечки в&nbsp;первый&nbsp;же сезон</h3>
+              <p class="problem__text">Швы и&nbsp;примыкания сделаны «на&nbsp;глаз»: вода находит путь к&nbsp;утеплителю и&nbsp;потолку.</p>
+            </li>
+            <li class="problem">
+              <span class="problem__num">02</span>
+              <h3 class="problem__title">Плесень и&nbsp;сырость под кровлей</h3>
+              <p class="problem__text">Нет пароизоляции или вентиляции — влага копится в&nbsp;пироге, утеплитель намокает и&nbsp;гниёт.</p>
+            </li>
+            <li class="problem">
+              <span class="problem__num">03</span>
+              <h3 class="problem__title">Испорченный фасад</h3>
+              <p class="problem__text">Неверно устроены водосток и&nbsp;свесы: вода течёт по&nbsp;стенам, оставляя потёки и&nbsp;разрушая отделку.</p>
+            </li>
+            <li class="problem">
+              <span class="problem__num">04</span>
+              <h3 class="problem__title">Переделка за&nbsp;свой счёт</h3>
+              <p class="problem__text">Дешёвые материалы и&nbsp;нарушенная технология: через пару лет кровлю снимают и&nbsp;делают заново.</p>
+            </li>
+          </ol>
+        </div>
       </div>
     </section>
 
     <!-- Как мы работаем -->
     <section class="section section--alt" id="approach">
-      <div class="container">
-        <h2 class="section__title">
-          <span class="section__title-main">Как мы работаем,</span>
-          <span class="section__title-sub">чтобы не&nbsp;пришлось переделывать</span>
-        </h2>
-        <div class="approach">
+      <div class="container split">
+        <div class="split__head">
+          <h2 class="section__title">
+            <span class="section__title-main">Как мы работаем,</span>
+            <span class="section__title-sub">чтобы не&nbsp;пришлось переделывать</span>
+          </h2>
+        </div>
+        <div class="split__body">
           <div class="approach__facts">
             <div class="approach__fact">
               <span class="approach__value">0&nbsp;₽</span>
               <span class="approach__label">выезд инженера на&nbsp;объект</span>
             </div>
             <div class="approach__fact">
-              <span class="approach__value">до&nbsp;15&nbsp;лет</span>
+              <span class="approach__value"><span class="approach__pre">до</span>&nbsp;15&nbsp;лет</span>
               <span class="approach__label">гарантия на&nbsp;работы</span>
             </div>
           </div>
@@ -178,75 +185,95 @@
       </div>
     </section>
 
-    <!-- Услуги -->
+    <!-- Услуги: горизонтальная лента (колесо мыши, перетаскивание, стрелки) -->
     <section class="section" id="services">
-      <div class="container">
+      <div class="container services__head">
         <h2 class="section__title">
-          <span class="section__title-main">Услуги:</span>
-          <span class="section__title-sub">кровли любой сложности</span>
-        </h2>
+            <span class="section__title-main">Услуги:</span>
+            <span class="section__title-sub">кровли любой сложности</span>
+          </h2>
+        <div class="services__nav">
+          <button class="round-btn" type="button" data-scroll="-1" aria-label="Назад"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+          <button class="round-btn" type="button" data-scroll="1" aria-label="Вперёд"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        </div>
+      </div>
+      <div class="services__track" tabindex="0" aria-label="Виды кровель">
         <ul class="services">
           <li class="service">
-            <div class="service__media"><img src="img/fortops-detail.jpg" alt="" loading="lazy"></div>
+            <div class="service__media"><img src="img/fortops-detail.jpg" alt="" loading="lazy" draggable="false"></div>
+            <span class="service__num">01</span>
             <h3 class="service__title">Плоская мембранная</h3>
             <p class="service__text">ПВХ-мембрана на&nbsp;основании из&nbsp;бетона или профлиста</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/troitsky-detail.jpg" alt="" loading="lazy"></div>
+            <div class="service__media"><img src="img/troitsky-detail.jpg" alt="" loading="lazy" draggable="false"></div>
+            <span class="service__num">02</span>
             <h3 class="service__title">Балластная</h3>
             <p class="service__text">Мембрана без сквозного крепежа, прижатая балластом</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/fortops.jpg" alt="" class="is-darkened" loading="lazy"></div>
+            <div class="service__media"><img src="img/fortops.jpg" alt="" class="is-darkened" loading="lazy" draggable="false"></div>
+            <span class="service__num">03</span>
             <h3 class="service__title">Эксплуатируемая</h3>
             <p class="service__text">Террасы, зоны отдыха и&nbsp;купели прямо на&nbsp;крыше</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/troitsky.jpg" alt="" class="is-darkened" loading="lazy"></div>
+            <div class="service__media"><img src="img/troitsky.jpg" alt="" class="is-darkened" loading="lazy" draggable="false"></div>
+            <span class="service__num">04</span>
             <h3 class="service__title">Инверсионная</h3>
             <p class="service__text">Гидроизоляция под утеплителем — защищена от&nbsp;солнца и&nbsp;мороза</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/castle-detail.jpg" alt="" loading="lazy"></div>
+            <div class="service__media"><img src="img/castle-detail.jpg" alt="" loading="lazy" draggable="false"></div>
+            <span class="service__num">05</span>
             <h3 class="service__title">Из&nbsp;натурального сланца</h3>
             <p class="service__text">Долговечное покрытие для скатов, башен и&nbsp;куполов</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/glagolevo-detail.jpg" alt="" loading="lazy"></div>
+            <div class="service__media"><img src="img/glagolevo-detail.jpg" alt="" loading="lazy" draggable="false"></div>
+            <span class="service__num">06</span>
             <h3 class="service__title">Фальцевая</h3>
             <p class="service__text">Металл с&nbsp;герметичным швом, повторяет сложные формы</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/glagolevo.jpg" alt="" class="is-darkened" loading="lazy"></div>
+            <div class="service__media"><img src="img/glagolevo.jpg" alt="" class="is-darkened" loading="lazy" draggable="false"></div>
+            <span class="service__num">07</span>
             <h3 class="service__title">Сводчатая и&nbsp;купольная</h3>
             <p class="service__text">Изогнутые скаты и&nbsp;переходы между плоскими участками</p>
           </li>
           <li class="service">
-            <div class="service__media"><img src="img/castle.jpg" alt="" class="is-darkened" loading="lazy"></div>
+            <div class="service__media"><img src="img/castle.jpg" alt="" class="is-darkened" loading="lazy" draggable="false"></div>
+            <span class="service__num">08</span>
             <h3 class="service__title">Исторические здания</h3>
             <p class="service__text">Кровли сложной архитектуры с&nbsp;сохранением облика</p>
           </li>
         </ul>
+      </div>
 
-        <h3 class="materials__title">Работаем с&nbsp;материалами</h3>
-        <ul class="materials">
-          <li class="material">
-            <h4 class="material__title">ПВХ-мембраны</h4>
-            <p class="material__text">ТехноНИКОЛЬ LOGICROOF — для плоских и&nbsp;эксплуатируемых кровель</p>
-          </li>
-          <li class="material">
-            <h4 class="material__title">Натуральный сланец</h4>
-            <p class="material__text">Европейский сланец для скатных и&nbsp;сложных кровель</p>
-          </li>
-          <li class="material">
-            <h4 class="material__title">Фальцевый металл</h4>
-            <p class="material__text">Оцинкованная сталь, медь, цинк-титан</p>
-          </li>
-          <li class="material">
-            <h4 class="material__title">Теплоизоляция</h4>
-            <p class="material__text">Каменная вата и&nbsp;XPS ТехноНИКОЛЬ для кровельного пирога</p>
-          </li>
-        </ul>
+      <div class="container split materials-split">
+        <div class="split__head">
+          <h3 class="materials__title">Работаем с&nbsp;материалами</h3>
+        </div>
+        <div class="split__body">
+          <ul class="materials">
+            <li class="material">
+              <h4 class="material__title">ПВХ-мембраны</h4>
+              <p class="material__text">ТехноНИКОЛЬ LOGICROOF — для плоских и&nbsp;эксплуатируемых кровель</p>
+            </li>
+            <li class="material">
+              <h4 class="material__title">Натуральный сланец</h4>
+              <p class="material__text">Европейский сланец для скатных и&nbsp;сложных кровель</p>
+            </li>
+            <li class="material">
+              <h4 class="material__title">Фальцевый металл</h4>
+              <p class="material__text">Оцинкованная сталь, медь, цинк-титан</p>
+            </li>
+            <li class="material">
+              <h4 class="material__title">Теплоизоляция</h4>
+              <p class="material__text">Каменная вата и&nbsp;XPS ТехноНИКОЛЬ для кровельного пирога</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -352,77 +379,79 @@
       </div>
     </section>
 
-    <!-- О компании -->
-    <section class="section section--alt" id="about">
-      <div class="container">
-        <div class="about">
-          <div class="about__text">
-            <h2 class="section__title">
-          <span class="section__title-main">О компании:</span>
-          <span class="section__title-sub">с&nbsp;2012 года на&nbsp;кровлях</span>
-        </h2>
-            <p class="section__lead">Terra Roof — кровельный подрядчик полного цикла. Монтируем плоские и&nbsp;скатные кровли для загородных домов, коттеджей и&nbsp;террас: от&nbsp;замера и&nbsp;сметы до&nbsp;сдачи объекта и&nbsp;гарантийного обслуживания.</p>
-            <p class="about__badge"><span class="about__badge-dot" aria-hidden="true"></span>Авторизованный подрядчик ТехноНИКОЛЬ</p>
-            <ul class="stats">
-              <li class="stat"><span class="stat__value">500+</span><span class="stat__label">проектов</span></li>
-              <li class="stat"><span class="stat__value">150&nbsp;000&nbsp;м²</span><span class="stat__label">смонтированных кровель</span></li>
-              <li class="stat"><span class="stat__value">25+</span><span class="stat__label">мастеров в&nbsp;штате</span></li>
-              <li class="stat"><span class="stat__value">8</span><span class="stat__label">наград</span></li>
-            </ul>
-          </div>
-          <div class="about__media"><img class="is-darkened" src="img/glagolevo.jpg" alt="Кровля загородного дома в КП «Глаголево-парк»" loading="lazy"></div>
+    <!-- О компании: фото на всю ширину, текст и цифры поверх -->
+    <section class="about" id="about">
+      <div class="about__media"><img class="is-darkened" src="img/glagolevo.jpg" alt="Кровля загородного дома в КП «Глаголево-парк»" loading="lazy"></div>
+      <div class="container about__inner">
+        <div class="about__text">
+          <h2 class="section__title">
+            <span class="section__title-main">О компании:</span>
+            <span class="section__title-sub">с&nbsp;2012 года на&nbsp;кровлях</span>
+          </h2>
+          <p class="section__lead">Terra Roof — кровельный подрядчик полного цикла. Монтируем плоские и&nbsp;скатные кровли для загородных домов, коттеджей и&nbsp;террас: от&nbsp;замера и&nbsp;сметы до&nbsp;сдачи объекта и&nbsp;гарантийного обслуживания.</p>
+          <p class="about__badge"><span class="about__badge-dot" aria-hidden="true"></span>Авторизованный подрядчик ТехноНИКОЛЬ</p>
         </div>
+        <ul class="stats">
+            <li class="stat"><span class="stat__value">500+</span><span class="stat__label">проектов</span></li>
+            <li class="stat"><span class="stat__value">150&nbsp;000&nbsp;м²</span><span class="stat__label">смонтированных кровель</span></li>
+            <li class="stat"><span class="stat__value">25+</span><span class="stat__label">мастеров в&nbsp;штате</span></li>
+            <li class="stat"><span class="stat__value">8</span><span class="stat__label">наград</span></li>
+        </ul>
       </div>
     </section>
 
     <!-- Почему выбирают нас -->
     <section class="section" id="why">
-      <div class="container">
-        <h2 class="section__title">
-          <span class="section__title-main">Почему</span>
-          <span class="section__title-sub">выбирают нас</span>
-        </h2>
-        <ul class="whys">
-          <li class="why">
-            <span class="why__num">01</span>
-            <h3 class="why__title">Честная смета</h3>
-            <p class="why__text">Стоимость фиксируется в&nbsp;договоре и&nbsp;не&nbsp;растёт в&nbsp;процессе работ.</p>
-          </li>
-          <li class="why">
-            <span class="why__num">02</span>
-            <h3 class="why__title">Ответственность за&nbsp;результат</h3>
-            <p class="why__text">Гарантия до&nbsp;15&nbsp;лет и&nbsp;расчётный срок службы кровли до&nbsp;50&nbsp;лет.</p>
-          </li>
-          <li class="why">
-            <span class="why__num">03</span>
-            <h3 class="why__title">Опыт со&nbsp;сложными объектами</h3>
-            <p class="why__text">От&nbsp;плоских террас до&nbsp;сланцевых башен и&nbsp;сводов.</p>
-          </li>
-          <li class="why">
-            <span class="why__num">04</span>
-            <h3 class="why__title">Сроки в&nbsp;договоре</h3>
-            <p class="why__text">График работ согласуем заранее и&nbsp;прописываем в&nbsp;договоре.</p>
-          </li>
-        </ul>
-        <!-- TODO: положить файл прайс-листа в files/price-list.pdf -->
-        <a class="btn-ghost" href="files/price-list.pdf" download>
-          Скачать прайс-лист
-          <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M7 2v9M3 7l4 4 4-4M2 13h10" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-        </a>
+      <div class="container split">
+        <div class="split__head">
+          <h2 class="section__title">
+            <span class="section__title-main">Почему</span>
+            <span class="section__title-sub">выбирают нас</span>
+          </h2>
+          <!-- TODO: положить файл прайс-листа в files/price-list.pdf -->
+          <a class="btn-ghost" href="files/price-list.pdf" download>
+            Скачать прайс-лист
+            <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M7 2v9M3 7l4 4 4-4M2 13h10" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </a>
+        </div>
+        <div class="split__body">
+          <ul class="whys">
+            <li class="why">
+              <span class="why__num">01</span>
+              <h3 class="why__title">Честная смета</h3>
+              <p class="why__text">Стоимость фиксируется в&nbsp;договоре и&nbsp;не&nbsp;растёт в&nbsp;процессе работ.</p>
+            </li>
+            <li class="why">
+              <span class="why__num">02</span>
+              <h3 class="why__title">Ответственность за&nbsp;результат</h3>
+              <p class="why__text">Гарантия до&nbsp;15&nbsp;лет и&nbsp;расчётный срок службы кровли до&nbsp;50&nbsp;лет.</p>
+            </li>
+            <li class="why">
+              <span class="why__num">03</span>
+              <h3 class="why__title">Опыт со&nbsp;сложными объектами</h3>
+              <p class="why__text">От&nbsp;плоских террас до&nbsp;сланцевых башен и&nbsp;сводов.</p>
+            </li>
+            <li class="why">
+              <span class="why__num">04</span>
+              <h3 class="why__title">Сроки в&nbsp;договоре</h3>
+              <p class="why__text">График работ согласуем заранее и&nbsp;прописываем в&nbsp;договоре.</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <!-- Награды и признание -->
     <section class="section section--alt" id="awards">
-      <div class="container">
-        <div class="awards">
-          <div class="awards__intro">
-            <h2 class="section__title">
-          <span class="section__title-main">Награды</span>
-          <span class="section__title-sub">и&nbsp;признание</span>
-        </h2>
-            <p class="awards__count"><span class="awards__count-value">8</span><span class="awards__count-label">наград и&nbsp;дипломов</span></p>
-          </div>
+      <div class="container split">
+        <div class="split__head">
+          <h2 class="section__title">
+            <span class="section__title-main">Награды</span>
+            <span class="section__title-sub">и&nbsp;признание</span>
+          </h2>
+          <p class="awards__count"><span class="awards__count-value">8</span><span class="awards__count-label">наград и&nbsp;дипломов</span></p>
+        </div>
+        <div class="split__body">
           <ul class="award-list">
             <li class="award">
               <h3 class="award__title">Гран-при премии «Лучший кровельщик»</h3>
@@ -441,31 +470,35 @@
       </div>
     </section>
 
-    <!-- Процесс работы -->
+    <!-- Процесс работы: таймлайн -->
     <section class="section" id="process">
       <div class="container">
         <h2 class="section__title">
-          <span class="section__title-main">Процесс работы:</span>
-          <span class="section__title-sub">4&nbsp;этапа</span>
-        </h2>
+            <span class="section__title-main">Процесс работы:</span>
+            <span class="section__title-sub">4&nbsp;этапа</span>
+          </h2>
         <ol class="steps">
           <li class="step">
-            <span class="step__num">01</span>
+            <span class="step__dot" aria-hidden="true"></span>
+            <span class="step__num">Этап 01</span>
             <h3 class="step__title">Заявка и&nbsp;выезд инженера</h3>
             <p class="step__text">Бесплатно приезжаем на&nbsp;объект, делаем замеры и&nbsp;фото.</p>
           </li>
           <li class="step">
-            <span class="step__num">02</span>
+            <span class="step__dot" aria-hidden="true"></span>
+            <span class="step__num">Этап 02</span>
             <h3 class="step__title">Смета и&nbsp;договор</h3>
             <p class="step__text">Считаем стоимость, фиксируем цену и&nbsp;сроки в&nbsp;договоре.</p>
           </li>
           <li class="step">
-            <span class="step__num">03</span>
+            <span class="step__dot" aria-hidden="true"></span>
+            <span class="step__num">Этап 03</span>
             <h3 class="step__title">Монтаж</h3>
             <p class="step__text">Работаем по&nbsp;технологии ТехноНИКОЛЬ и&nbsp;присылаем фотоотчёт по&nbsp;этапам.</p>
           </li>
           <li class="step">
-            <span class="step__num">04</span>
+            <span class="step__dot" aria-hidden="true"></span>
+            <span class="step__num">Этап 04</span>
             <h3 class="step__title">Сдача и&nbsp;гарантия</h3>
             <p class="step__text">Принимаете кровлю по&nbsp;акту и&nbsp;получаете гарантию до&nbsp;15&nbsp;лет.</p>
           </li>
@@ -561,6 +594,7 @@
           </div>
         </div>
       </div>
+      <p class="footer__wordmark" aria-hidden="true">TERRA ROOF</p>
       <div class="footer__bottom">
         <p>© 2012–2026 Terra Roof</p>
         <a href="#">Политика конфиденциальности</a>
@@ -695,7 +729,7 @@
     </form>
   </dialog>
 
-  <script src="cases-data.js?v=9"></script>
-  <script src="main.js?v=9"></script>
+  <script src="cases-data.js?v=11"></script>
+  <script src="main.js?v=11"></script>
 </body>
 </html>
