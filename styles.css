@@ -379,7 +379,7 @@ button { font: inherit; }
 .hero__content { max-width: 62vw; }
 .hero__title {
   font-size: clamp(34px, 5vw, 150px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 0.97;
   letter-spacing: -0.025em;
   text-wrap: wrap;
@@ -459,6 +459,28 @@ button { font: inherit; }
 }
 .split__head { position: sticky; top: calc(clamp(56px, 4.44vw, 104px) + 32px); }
 .split__head .section__title { margin-bottom: 0; }
+
+/* мини-заголовок «01 Название» под заголовком раздела */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(16px, 1.39vw, 32px);
+  margin-bottom: clamp(40px, 4.44vw, 128px);
+  font-size: clamp(11px, 0.83vw, 17px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+}
+.eyebrow span { color: var(--accent); }
+.eyebrow::before { content: ""; width: clamp(24px, 2.22vw, 56px); height: 1px; background: var(--accent); order: 1; }
+.section__title:has(+ .eyebrow),
+.cases__title:has(+ .eyebrow) { margin-bottom: 0; }
+.split__head .eyebrow,
+.services__heading .eyebrow,
+.about__text .eyebrow,
+.contact__info .eyebrow { margin-bottom: 0; }
 .split__head .btn-ghost { margin-top: clamp(32px, 2.78vw, 72px); }
 
 .problem__text,
@@ -492,7 +514,7 @@ button { font: inherit; }
 }
 .problem__title {
   font-size: clamp(20px, 1.67vw, 48px);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
   transition: transform 0.3s, color 0.3s;
 }
@@ -501,10 +523,10 @@ button { font: inherit; }
 .problem:hover .problem__title { transform: translateX(8px); }
 
 /* ===== Как мы работаем ===== */
-.approach__facts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.approach__facts { display: flex; flex-wrap: wrap; gap: clamp(24px, 2.78vw, 80px); margin-top: clamp(32px, 3.33vw, 96px); }
 .approach__fact { display: flex; flex-direction: column; gap: 12px; }
 .approach__value {
-  font-size: clamp(56px, 6.25vw, 180px);
+  font-size: clamp(48px, 4.44vw, 128px);
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -512,7 +534,7 @@ button { font: inherit; }
   white-space: nowrap;
 }
 .approach__pre { font-size: 0.5em; letter-spacing: -0.02em; }
-.principles { margin-top: clamp(48px, 4.44vw, 128px); border-top: 1px solid var(--line-dark); }
+.principles { border-top: 1px solid var(--line-dark); }
 .principle {
   display: grid;
   grid-template-columns: 5fr 7fr;
@@ -520,7 +542,7 @@ button { font: inherit; }
   padding: clamp(20px, 1.94vw, 48px) 0;
   border-bottom: 1px solid var(--line-dark);
 }
-.principle__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 500; line-height: 1.25; }
+.principle__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 600; line-height: 1.25; }
 
 /* ===== Услуги: горизонтальная лента ===== */
 .services__head {
@@ -531,6 +553,7 @@ button { font: inherit; }
   margin-bottom: clamp(40px, 4.44vw, 128px);
 }
 .services__head .section__title { margin-bottom: 0; }
+.services__heading { display: flex; flex-direction: column; }
 .services__nav { display: flex; gap: 8px; flex: none; }
 .services__track {
   overflow-x: auto;
@@ -556,7 +579,7 @@ button { font: inherit; }
 .service__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .service:hover .service__media img { transform: scale(1.04); }
 .service__num { color: var(--accent); }
-.service__title { margin-top: 8px; font-size: clamp(20px, 1.67vw, 48px); font-weight: 500; line-height: 1.2; }
+.service__title { margin-top: 8px; font-size: clamp(20px, 1.67vw, 48px); font-weight: 600; line-height: 1.2; }
 .service__text { margin-top: 8px; }
 
 .materials-split { margin-top: var(--section-y); }
@@ -569,7 +592,7 @@ button { font: inherit; }
   padding: clamp(20px, 1.94vw, 48px) 0;
   border-bottom: 1px solid var(--line-dark);
 }
-.material__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 500; line-height: 1.25; }
+.material__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 600; line-height: 1.25; }
 
 /* ===== Кейсы: крупные строки, фото меняет сторону через одну ===== */
 .cases__grid { display: grid; gap: clamp(64px, 6.94vw, 200px); }
@@ -707,7 +730,7 @@ button { font: inherit; }
 }
 .why:hover { border-color: rgba(255, 168, 0, 0.5); }
 .why__num { font-size: clamp(48px, 4.44vw, 128px); font-weight: 600; line-height: 1; color: var(--accent); }
-.why__title { margin-top: auto; padding-top: 24px; font-size: clamp(20px, 1.67vw, 48px); font-weight: 500; line-height: 1.2; }
+.why__title { margin-top: auto; padding-top: 24px; font-size: clamp(20px, 1.67vw, 48px); font-weight: 600; line-height: 1.2; }
 .why__text { margin-top: 10px; }
 
 /* ===== Награды ===== */
@@ -716,7 +739,7 @@ button { font: inherit; }
 .awards__count-label { max-width: 9em; }
 .award-list { border-top: 1px solid var(--line-dark); }
 .award { padding: clamp(24px, 2.22vw, 56px) 0; border-bottom: 1px solid var(--line-dark); }
-.award__title { font-size: clamp(20px, 1.67vw, 48px); font-weight: 500; line-height: 1.25; transition: color 0.2s; }
+.award__title { font-size: clamp(20px, 1.67vw, 48px); font-weight: 600; line-height: 1.25; transition: color 0.2s; }
 .award:hover .award__title { color: var(--accent-soft); }
 .award__meta { margin-top: 10px; }
 
@@ -742,7 +765,7 @@ button { font: inherit; }
   background: var(--accent);
   box-shadow: 0 0 0 6px rgba(255, 168, 0, 0.15);
 }
-.step__title { margin-top: 10px; font-size: clamp(20px, 1.67vw, 48px); font-weight: 500; line-height: 1.2; }
+.step__title { margin-top: 10px; font-size: clamp(20px, 1.67vw, 48px); font-weight: 600; line-height: 1.2; }
 .step__text { margin-top: 10px; }
 
 /* ===== Форма и контакты ===== */
@@ -1057,7 +1080,7 @@ html.has-cursor .cursor { display: block; }
 .case-modal__title {
   padding-right: 48px;
   font-size: clamp(26px, 2.36vw, 60px);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.015em;
 }
