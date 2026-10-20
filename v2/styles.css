@@ -824,8 +824,10 @@ html.has-cursor .cursor { display: block; }
 .mobile-menu { display: none; }
 .sticky-cta { display: none; }
 
-/* ===== Планшет ===== */
-@media (max-width: 1200px) {
+/* ===== Планшет =====
+   1024, а не 1200: ноутбук 1440px с масштабом Windows 125% отдаёт сайту ~1150px,
+   и на нём должна оставаться полная десктопная вёрстка */
+@media (max-width: 1024px) {
   .contacts__phone { display: none; }
   .problems,
   .services,
