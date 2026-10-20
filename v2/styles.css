@@ -331,10 +331,9 @@ button { font: inherit; }
 .problems {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding-top: clamp(24px, 2.22vw, 56px);
   border-top: 1px solid var(--line);
 }
-.problem { padding: 0 clamp(16px, 1.67vw, 40px); border-left: 1px solid var(--line); }
+.problem { padding: clamp(24px, 2.22vw, 56px) clamp(16px, 1.67vw, 40px) 0; border-left: 1px solid var(--line); }
 .problem:first-child { padding-left: 0; border-left: 0; }
 
 /* ===== Как мы работаем ===== */
@@ -344,9 +343,8 @@ button { font: inherit; }
   flex-direction: column;
   gap: 12px;
   padding: clamp(16px, 1.39vw, 32px) 0;
-  border-top: 1px solid var(--line);
 }
-.approach__fact:first-child { padding-top: 0; border-top: 0; }
+.approach__fact:first-child { padding-top: 0; }
 .approach__value {
   font-size: clamp(56px, 6.94vw, 200px);
   font-weight: 300;
@@ -907,7 +905,7 @@ html.has-cursor .cursor { display: block; }
   .principles,
   .materials { grid-template-columns: 1fr; }
   .problem { padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--line); }
-  .problem:first-child { padding-top: 0; border-top: 0; }
+  .problem:first-child { border-top: 0; }
   .problem:nth-child(n) { margin-top: 0; }
   .problem + .problem { margin-top: 32px; }
   .services { grid-template-columns: repeat(2, 1fr); gap: 32px 12px; }
