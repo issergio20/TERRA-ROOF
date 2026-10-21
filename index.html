@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600;700&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
 
@@ -189,17 +189,19 @@
 
     <!-- Услуги: горизонтальная лента (колесо мыши, перетаскивание, стрелки) -->
     <section class="section" id="services">
-      <div class="container services__head">
-        <div class="services__heading">
-        <p class="eyebrow"><span>03</span>Услуги</p>
-        <h2 class="section__title">
+      <div class="container split split--rail services__head">
+        <div class="split__rail">
+          <p class="eyebrow"><span>03</span>Услуги</p>
+        </div>
+        <div class="split__body services__heading">
+          <h2 class="section__title">
             <span class="section__title-main">Услуги:</span>
             <span class="section__title-sub">кровли любой сложности</span>
           </h2>
-        </div>
         <div class="services__nav">
           <button class="round-btn" type="button" data-scroll="-1" aria-label="Назад"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
           <button class="round-btn" type="button" data-scroll="1" aria-label="Вперёд"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+          </div>
         </div>
       </div>
       <div class="services__track" tabindex="0" aria-label="Виды кровель">
@@ -255,11 +257,8 @@
         </ul>
       </div>
 
-      <div class="container split materials-split">
-        <div class="split__head">
+      <div class="container materials-split">
           <h3 class="materials__title">Работаем с&nbsp;материалами</h3>
-        </div>
-        <div class="split__body">
           <ul class="materials">
             <li class="material">
               <h4 class="material__title">ПВХ-мембраны</h4>
@@ -278,7 +277,6 @@
               <p class="material__text">Каменная вата и&nbsp;XPS ТехноНИКОЛЬ для кровельного пирога</p>
             </li>
           </ul>
-        </div>
       </div>
     </section>
 
@@ -397,12 +395,6 @@
       <div class="container split split--rail about__inner">
         <div class="split__rail">
           <p class="eyebrow"><span>05</span>О компании</p>
-          <ul class="stats">
-            <li class="stat"><span class="stat__value">500+</span><span class="stat__label">проектов</span></li>
-            <li class="stat"><span class="stat__value">150&nbsp;000&nbsp;м²</span><span class="stat__label">смонтированных кровель</span></li>
-            <li class="stat"><span class="stat__value">25+</span><span class="stat__label">мастеров в&nbsp;штате</span></li>
-            <li class="stat"><span class="stat__value">8</span><span class="stat__label">наград</span></li>
-          </ul>
         </div>
         <div class="split__body about__text">
           <h2 class="section__title">
@@ -412,6 +404,12 @@
           <p class="section__lead">Terra Roof — кровельный подрядчик полного цикла. Монтируем плоские и&nbsp;скатные кровли для загородных домов, коттеджей и&nbsp;террас: от&nbsp;замера и&nbsp;сметы до&nbsp;сдачи объекта и&nbsp;гарантийного обслуживания.</p>
           <p class="about__badge"><span class="about__badge-dot" aria-hidden="true"></span>Авторизованный подрядчик ТехноНИКОЛЬ</p>
         </div>
+        <ul class="stats">
+          <li class="stat"><span class="stat__value">500+</span><span class="stat__label">проектов</span></li>
+          <li class="stat"><span class="stat__value">150&nbsp;000&nbsp;м²</span><span class="stat__label">смонтированных кровель</span></li>
+          <li class="stat"><span class="stat__value">25+</span><span class="stat__label">мастеров в&nbsp;штате</span></li>
+          <li class="stat"><span class="stat__value">8</span><span class="stat__label">наград</span></li>
+        </ul>
       </div>
     </section>
 
@@ -754,7 +752,7 @@
     </form>
   </dialog>
 
-  <script src="cases-data.js?v=15"></script>
-  <script src="main.js?v=15"></script>
+  <script src="cases-data.js?v=16"></script>
+  <script src="main.js?v=16"></script>
 </body>
 </html>
