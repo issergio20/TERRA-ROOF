@@ -182,17 +182,18 @@ if (cursorQuery.matches) {
   dialogs.forEach((d) => dialogObserver.observe(d, { attributes: true, attributeFilter: ["open"] }));
 }
 
-// Плавный переход между первым экраном и следующим блоком.
-// Колесо вниз на первом экране — едем к следующему блоку, колесо вверх от его начала — обратно.
-// Ссылки на якоря (кнопка «вниз», меню) прокручиваются той же анимацией.
-// в этом варианте цифры идут полосой под фото — первый экран заканчивается на ней
-const nextBlock = document.querySelector(".hero__facts");
-const snapQuery = matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+// Прокрутка колесом от блока к блоку: один жест колеса — плавный переезд к следующему блоку.
+// Высокие блоки (выше экрана) проезжаем по частям, чтобы не пропустить содержимое.
+// Ссылки на якоря (меню, кнопки) прокручиваются той же анимацией.
+const snapQuery = isStatic
+  ? { matches: false }
+  : matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
 let pageScrolling = false;
+let wheelLockUntil = 0;
 
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-function smoothScrollTo(top, duration = 1100) {
+function smoothScrollTo(top, duration = 1000) {
   const start = scrollY;
   const distance = top - start;
   if (Math.abs(distance) < 2) return;
@@ -208,6 +209,7 @@ function smoothScrollTo(top, duration = 1100) {
     done = true;
     scrollTo({ top, behavior: "instant" });
     pageScrolling = false;
+    wheelLockUntil = performance.now() + 200;
   };
   requestAnimationFrame(function step(now) {
     if (done) return;
@@ -221,23 +223,43 @@ function smoothScrollTo(top, duration = 1100) {
   setTimeout(finish, duration + 300);
 }
 
+// Точки остановки: начало каждого блока, а внутри высоких блоков — шаг примерно в экран
+function scrollStops() {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const step = innerHeight * 0.8;
+  const stops = [0, max];
+  document.querySelectorAll(".hero, .hero__facts, main > section:not(.hero), .footer").forEach((block) => {
+    const top = Math.round(block.getBoundingClientRect().top + scrollY);
+    const bottom = top + block.offsetHeight;
+    stops.push(top);
+    // первый экран делится полосой цифр — у него своя точка остановки
+    if (block.matches(".hero")) return;
+    for (let y = top + step; y < bottom - innerHeight; y += step) stops.push(Math.round(y));
+    if (bottom - innerHeight > top) stops.push(bottom - innerHeight);
+  });
+  return stops
+    .filter((y) => y >= 0 && y <= max)
+    .sort((a, b) => a - b)
+    .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 40);
+}
+
 addEventListener(
   "wheel",
   (e) => {
     if (!snapQuery.matches || e.ctrlKey) return;
     if (document.body.classList.contains("modal-open") || document.body.classList.contains("menu-open")) return;
-    if (pageScrolling) {
-      e.preventDefault();
+    if (e.target.closest("textarea") || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    const now = performance.now();
+    // пока едем и пока не затихла инерция тачпада — новые шаги не начинаем
+    if (pageScrolling || now < wheelLockUntil) {
+      if (!pageScrolling) wheelLockUntil = now + 200;
       return;
     }
-    const casesTop = nextBlock.offsetTop;
-    if (e.deltaY > 0 && scrollY < casesTop - 2) {
-      e.preventDefault();
-      smoothScrollTo(casesTop);
-    } else if (e.deltaY < 0 && scrollY > 0 && scrollY <= casesTop + 2) {
-      e.preventDefault();
-      smoothScrollTo(0);
-    }
+    if (Math.abs(e.deltaY) < 4) return;
+    const stops = scrollStops();
+    const next = e.deltaY > 0 ? stops.find((y) => y > scrollY + 2) : stops.reverse().find((y) => y < scrollY - 2);
+    if (next !== undefined) smoothScrollTo(next);
   },
   { passive: false }
 );
@@ -364,3 +386,70 @@ bindLeadForm(leadForm, () => {
   leadForm.querySelector(".lead-form__fields").hidden = true;
   leadForm.querySelector(".lead-form__success").hidden = false;
 });
+
+// Появление блоков при прокрутке: заголовки построчно, карточки лесенкой, фото «открываются» снизу,
+// цифры досчитываются до своего значения
+if (!isStatic && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+  const fadeSelector = [
+    ".hero__title > span", ".hero__lead", ".hero__btn", ".fact",
+    ".eyebrow", ".section__title > span", ".cases__title > span", ".section__lead", ".about__badge",
+    ".problem", ".approach__fact", ".principle", ".service__title", ".service__text", ".materials__title", ".material",
+    ".case__head", ".case__body", ".stat", ".why", ".btn-ghost", ".awards__count", ".award", ".step",
+    ".section__cta", ".cases__cta", ".contact__list li", ".lead-form",
+    ".footer__brand", ".footer__nav", ".footer__contacts",
+  ].join(", ");
+  const mediaSelector = ".service__media, .case__media, .about__media";
+  const cardSelector = ".service, .case";
+  const fades = document.querySelectorAll(fadeSelector);
+  const medias = document.querySelectorAll(mediaSelector);
+  fades.forEach((el) => el.classList.add("reveal"));
+  medias.forEach((el) => el.classList.add("reveal", "reveal--media"));
+
+  const siblingIndex = (el) => [...el.parentElement.children].filter((c) => c.classList.contains("reveal") || c.matches(cardSelector)).indexOf(el);
+  document.querySelectorAll(".reveal").forEach((el) => {
+    // внутри карточки услуги или кейса задержка зависит от места карточки в ряду
+    const card = el.closest(cardSelector);
+    const index = card ? (siblingIndex(card) % 4) + [...card.querySelectorAll(".reveal")].indexOf(el) * 0.6 : siblingIndex(el);
+    el.style.setProperty("--reveal-delay", `${Math.round(Math.min(index, 6) * 90)}ms`);
+  });
+  document.documentElement.classList.add("has-reveal");
+
+  // счёт цифр: 500+, 150 000 м², 25+, 8, 10+
+  const formatNumber = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0");
+  function countUp(el) {
+    if (el.children.length) return;
+    const text = el.textContent;
+    const match = text.match(/\d[\d\u00a0 ]*\d|\d/);
+    if (!match) return;
+    const target = parseInt(match[0].replace(/\D/g, ""), 10);
+    if (!target) return;
+    const before = text.slice(0, match.index);
+    const after = text.slice(match.index + match[0].length);
+    const t0 = performance.now();
+    const duration = 1400;
+    requestAnimationFrame(function tick(now) {
+      const t = Math.min(1, (now - t0) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = t < 1 ? before + formatNumber(Math.round(target * eased)) + after : text;
+      if (t < 1) requestAnimationFrame(tick);
+    });
+    setTimeout(() => (el.textContent = text), duration + 300);
+  }
+
+  const revealIo = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        revealIo.unobserve(el);
+        el.classList.add("is-in");
+        el.querySelectorAll(".stat__value, .fact__value, .awards__count-value").forEach(countUp);
+        // после появления возвращаем элементу его собственные переходы (наведение и т. п.)
+        const delay = parseFloat(el.style.getPropertyValue("--reveal-delay")) || 0;
+        setTimeout(() => el.classList.remove("reveal", "reveal--media", "is-in"), 1500 + delay);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px" }
+  );
+  document.querySelectorAll(".reveal").forEach((el) => revealIo.observe(el));
+}
