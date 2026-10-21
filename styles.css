@@ -24,6 +24,7 @@
   --gap: clamp(16px, 1.667vw, 48px);
   --section-y: clamp(80px, 8.33vw, 240px);
   --header-h: clamp(64px, 6.11vw, 140px);
+  --h2-size: clamp(26px, 2.78vw, 80px); /* жёлтая строка заголовков помещается в одну строку */
 
   --font: "Manrope", system-ui, sans-serif;
   --font-display: "Geologica", "Manrope", system-ui, sans-serif;
@@ -430,7 +431,7 @@ button { font: inherit; }
 .cases__title {
   max-width: 18em;
   margin-bottom: clamp(40px, 4.44vw, 128px);
-  font-size: clamp(30px, 3.33vw, 96px);
+  font-size: var(--h2-size);
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -441,6 +442,11 @@ button { font: inherit; }
 .cases__title > span { display: block; }
 .section__title-sub,
 .cases__title-sub { color: var(--accent); }
+/* жёлтая строка заголовка — в одну строку (на телефоне переносится) */
+@media (min-width: 769px) {
+  .section__title-sub,
+  .cases__title-sub { white-space: nowrap; }
+}
 .section__lead {
   max-width: 34em;
   margin-top: clamp(20px, 1.94vw, 48px);
@@ -463,8 +469,10 @@ button { font: inherit; }
 /* мини-заголовок слева, заголовок справа; нижний элемент левой колонки прижат к низу */
 .split--rail { align-items: stretch; }
 .split__rail { display: flex; flex-direction: column; align-items: flex-start; }
-.split__rail .eyebrow:not(:has(+ .section__title)) { height: calc(clamp(30px, 3.33vw, 96px) * 1.05); margin-bottom: 0; }
+.split__rail .eyebrow:not(:has(+ .section__title)) { height: calc(var(--h2-size) * 1.05); margin-bottom: 0; }
 .split__rail > :last-child:not(.eyebrow) { margin-top: auto; padding-top: clamp(32px, 3.33vw, 96px); }
+/* у кнопки отступ сверху сломал бы её высоту — расстояние даёт заголовок над ней */
+.split__rail > .btn-ghost:last-child { padding-top: 0; }
 .split__rail + .split__body > .section__title:last-child,
 .split__rail + .split__body > .cases__title:last-child { margin-bottom: 0; }
 .split--rail + * { margin-top: clamp(40px, 4.44vw, 128px); }
