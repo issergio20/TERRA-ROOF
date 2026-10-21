@@ -538,8 +538,11 @@ button { font: inherit; }
   transition: transform 0.3s, color 0.3s;
 }
 .problem__text { margin-top: 10px; max-width: 36em; }
-.problem:hover .problem__num { color: var(--accent); }
-.problem:hover .problem__title { transform: translateX(8px); }
+/* только для мыши: на телефоне «наведение» залипает после касания */
+@media (hover: hover) {
+  .problem:hover .problem__num { color: var(--accent); }
+  .problem:hover .problem__title { transform: translateX(8px); }
+}
 
 /* ===== Как мы работаем ===== */
 .approach__facts { display: flex; flex-direction: column; gap: clamp(24px, 2.78vw, 80px); }
@@ -870,7 +873,7 @@ button { font: inherit; }
   .split__rail { display: contents; }
   .split__rail .eyebrow:not(:has(+ .section__title)) { height: auto; margin-bottom: clamp(14px, 1.25vw, 28px); }
   .split__rail > :last-child:not(.eyebrow) { order: 1; margin-top: clamp(32px, 3.33vw, 96px); padding-top: 0; }
-  .problems { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
+  .problems { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; margin-top: clamp(32px, 4.44vw, 128px); }
   .problem:nth-child(odd) { border-top: 0; }
   .problem:first-child { border-top: 1px solid var(--line-dark); }
   .stats { grid-template-columns: repeat(2, 1fr); }
