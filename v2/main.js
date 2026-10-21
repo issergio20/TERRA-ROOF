@@ -1,3 +1,7 @@
+// Режим для импорта в Figma (…/?static): всё видно сразу, картинки грузятся без ожидания прокрутки
+const isStatic = new URLSearchParams(location.search).has("static");
+if (isStatic) document.querySelectorAll('img[loading="lazy"]').forEach((img) => (img.loading = "eager"));
+
 // Мобильное меню
 const burger = document.querySelector(".burger");
 const menu = document.getElementById("mobile-menu");

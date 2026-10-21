@@ -1,3 +1,7 @@
+// Режим для импорта в Figma (…/?static): всё видно сразу, картинки грузятся без ожидания прокрутки
+const isStatic = new URLSearchParams(location.search).has("static");
+if (isStatic) document.querySelectorAll('img[loading="lazy"]').forEach((img) => (img.loading = "eager"));
+
 // Мобильное меню
 const burger = document.querySelector(".burger");
 const menu = document.getElementById("mobile-menu");
@@ -182,7 +186,9 @@ if (cursorQuery.matches) {
 // Колесо вниз на первом экране — едем к следующему блоку, колесо вверх от его начала — обратно.
 // Ссылки на якоря (кнопка «вниз», меню) прокручиваются той же анимацией.
 const nextBlock = document.querySelector(".hero").nextElementSibling;
-const snapQuery = matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+const snapQuery = isStatic
+  ? { matches: false }
+  : matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
 let pageScrolling = false;
 
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -440,7 +446,7 @@ addEventListener("pointerup", () => {
 });
 
 // Появление блоков при прокрутке: мини-заголовки, заголовки построчно, карточки и строки списков — лесенкой
-if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+if (!isStatic && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
   const revealSelector = [
     ".hero__title > span", ".hero__lead", ".hero__btn", ".fact",
     ".eyebrow", ".section__title > span", ".cases__title > span", ".section__lead", ".about__badge",
