@@ -182,44 +182,18 @@ if (cursorQuery.matches) {
   dialogs.forEach((d) => dialogObserver.observe(d, { attributes: true, attributeFilter: ["open"] }));
 }
 
-// Плавный переход между первым экраном и следующим блоком.
-// Колесо вниз на первом экране — едем к следующему блоку, колесо вверх от его начала — обратно.
-// Ссылки на якоря (кнопка «вниз», меню) прокручиваются той же анимацией.
-const nextBlock = document.querySelector(".hero").nextElementSibling;
+// Прокрутка колесом от блока к блоку: один жест колеса — плавный переезд к следующему блоку.
+// Высокие блоки (выше экрана) проезжаем по частям, чтобы не пропустить содержимое.
+// Ссылки на якоря (меню, кнопки) прокручиваются той же анимацией.
 const snapQuery = isStatic
   ? { matches: false }
   : matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
 let pageScrolling = false;
+let wheelLockUntil = 0;
 
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-// Плавная прокрутка колесом: страница догоняет цель с инерцией, а не прыгает рывками
-let wheelTarget = scrollY;
-let wheelCurrent = scrollY;
-let wheelRaf = 0;
-
-function stopWheel() {
-  cancelAnimationFrame(wheelRaf);
-  wheelRaf = 0;
-}
-
-function wheelStep() {
-  wheelCurrent += (wheelTarget - wheelCurrent) * 0.1;
-  if (Math.abs(wheelTarget - wheelCurrent) < 0.5) wheelCurrent = wheelTarget;
-  scrollTo({ top: wheelCurrent, behavior: "instant" });
-  wheelRaf = wheelCurrent === wheelTarget ? 0 : requestAnimationFrame(wheelStep);
-}
-
-function smoothWheel(e) {
-  const delta = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
-  if (!wheelRaf) wheelCurrent = wheelTarget = scrollY;
-  const max = document.documentElement.scrollHeight - innerHeight;
-  wheelTarget = Math.max(0, Math.min(max, wheelTarget + delta));
-  if (!wheelRaf) wheelRaf = requestAnimationFrame(wheelStep);
-}
-
-function smoothScrollTo(top, duration = 1100) {
-  stopWheel();
+function smoothScrollTo(top, duration = 1000) {
   const start = scrollY;
   const distance = top - start;
   if (Math.abs(distance) < 2) return;
@@ -235,6 +209,7 @@ function smoothScrollTo(top, duration = 1100) {
     done = true;
     scrollTo({ top, behavior: "instant" });
     pageScrolling = false;
+    wheelLockUntil = performance.now() + 200;
   };
   requestAnimationFrame(function step(now) {
     if (done) return;
@@ -248,26 +223,41 @@ function smoothScrollTo(top, duration = 1100) {
   setTimeout(finish, duration + 300);
 }
 
+// Точки остановки: начало каждого блока, а внутри высоких блоков — шаг примерно в экран
+function scrollStops() {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const step = innerHeight * 0.8;
+  const stops = [0, max];
+  document.querySelectorAll(".hero, main > section:not(.hero), .footer").forEach((block) => {
+    const top = Math.round(block.getBoundingClientRect().top + scrollY);
+    const bottom = top + block.offsetHeight;
+    stops.push(top);
+    for (let y = top + step; y < bottom - innerHeight; y += step) stops.push(Math.round(y));
+    if (bottom - innerHeight > top) stops.push(bottom - innerHeight);
+  });
+  return stops
+    .filter((y) => y >= 0 && y <= max)
+    .sort((a, b) => a - b)
+    .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 40);
+}
+
 addEventListener(
   "wheel",
   (e) => {
     if (!snapQuery.matches || e.ctrlKey) return;
     if (document.body.classList.contains("modal-open") || document.body.classList.contains("menu-open")) return;
-    if (pageScrolling) {
-      e.preventDefault();
+    if (e.target.closest("textarea") || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    const now = performance.now();
+    // пока едем и пока не затихла инерция тачпада — новые шаги не начинаем
+    if (pageScrolling || now < wheelLockUntil) {
+      if (!pageScrolling) wheelLockUntil = now + 200;
       return;
     }
-    const casesTop = nextBlock.offsetTop;
-    if (e.deltaY > 0 && scrollY < casesTop - 2) {
-      e.preventDefault();
-      smoothScrollTo(casesTop);
-    } else if (e.deltaY < 0 && scrollY > 0 && scrollY <= casesTop + 2) {
-      e.preventDefault();
-      smoothScrollTo(0);
-    } else if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.target.closest("textarea")) {
-      e.preventDefault();
-      smoothWheel(e);
-    }
+    if (Math.abs(e.deltaY) < 4) return;
+    const stops = scrollStops();
+    const next = e.deltaY > 0 ? stops.find((y) => y > scrollY + 2) : stops.reverse().find((y) => y < scrollY - 2);
+    if (next !== undefined) smoothScrollTo(next);
   },
   { passive: false }
 );
@@ -445,22 +435,54 @@ addEventListener("pointerup", () => {
   if (wasMoved) servicesTrack.addEventListener("click", (e) => e.preventDefault(), { capture: true, once: true });
 });
 
-// Появление блоков при прокрутке: мини-заголовки, заголовки построчно, карточки и строки списков — лесенкой
+// Появление блоков при прокрутке: заголовки построчно, карточки лесенкой, фото «открываются» снизу,
+// цифры досчитываются до своего значения
 if (!isStatic && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-  const revealSelector = [
+  const fadeSelector = [
     ".hero__title > span", ".hero__lead", ".hero__btn", ".fact",
     ".eyebrow", ".section__title > span", ".cases__title > span", ".section__lead", ".about__badge",
-    ".problem", ".approach__fact", ".principle", ".service", ".materials__title", ".material",
-    ".case", ".stat", ".why", ".btn-ghost", ".awards__count", ".award", ".step",
-    ".section__cta", ".cases__cta", ".services__nav", ".contact__list li", ".lead-form", ".footer__wordmark",
+    ".problem", ".approach__fact", ".principle", ".service__num", ".service__title", ".service__text", ".materials__title", ".material",
+    ".case__head", ".case__body", ".stat", ".why", ".btn-ghost", ".awards__count", ".award", ".step",
+    ".section__cta", ".cases__cta", ".contact__list li", ".lead-form",
+    ".footer__brand", ".footer__nav", ".footer__contacts", ".footer__wordmark", ".services__nav",
   ].join(", ");
-  const items = document.querySelectorAll(`main ${revealSelector.replaceAll(", ", ", main ")}, .footer__wordmark`);
-  items.forEach((el) => el.classList.add("reveal"));
-  items.forEach((el) => {
-    const index = [...el.parentElement.children].filter((c) => c.classList.contains("reveal")).indexOf(el);
-    el.style.setProperty("--reveal-delay", `${Math.min(index, 5) * 90}ms`);
+  const mediaSelector = ".service__media, .case__media";
+  const cardSelector = ".service, .case";
+  const fades = document.querySelectorAll(fadeSelector);
+  const medias = document.querySelectorAll(mediaSelector);
+  fades.forEach((el) => el.classList.add("reveal"));
+  medias.forEach((el) => el.classList.add("reveal", "reveal--media"));
+
+  const siblingIndex = (el) => [...el.parentElement.children].filter((c) => c.classList.contains("reveal") || c.matches(cardSelector)).indexOf(el);
+  document.querySelectorAll(".reveal").forEach((el) => {
+    // внутри карточки услуги или кейса задержка зависит от места карточки в ряду
+    const card = el.closest(cardSelector);
+    const index = card ? (siblingIndex(card) % 4) + [...card.querySelectorAll(".reveal")].indexOf(el) * 0.6 : siblingIndex(el);
+    el.style.setProperty("--reveal-delay", `${Math.round(Math.min(index, 6) * 90)}ms`);
   });
   document.documentElement.classList.add("has-reveal");
+
+  // счёт цифр: 500+, 150 000 м², 25+, 8, 10+
+  const formatNumber = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0");
+  function countUp(el) {
+    if (el.children.length) return;
+    const text = el.textContent;
+    const match = text.match(/\d[\d\u00a0 ]*\d|\d/);
+    if (!match) return;
+    const target = parseInt(match[0].replace(/\D/g, ""), 10);
+    if (!target) return;
+    const before = text.slice(0, match.index);
+    const after = text.slice(match.index + match[0].length);
+    const t0 = performance.now();
+    const duration = 1400;
+    requestAnimationFrame(function tick(now) {
+      const t = Math.min(1, (now - t0) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = t < 1 ? before + formatNumber(Math.round(target * eased)) + after : text;
+      if (t < 1) requestAnimationFrame(tick);
+    });
+    setTimeout(() => (el.textContent = text), duration + 300);
+  }
 
   const revealIo = new IntersectionObserver(
     (entries) => {
@@ -469,12 +491,13 @@ if (!isStatic && matchMedia("(prefers-reduced-motion: no-preference)").matches) 
         const el = e.target;
         revealIo.unobserve(el);
         el.classList.add("is-in");
+        el.querySelectorAll(".stat__value, .fact__value, .awards__count-value").forEach(countUp);
         // после появления возвращаем элементу его собственные переходы (наведение и т. п.)
         const delay = parseFloat(el.style.getPropertyValue("--reveal-delay")) || 0;
-        setTimeout(() => el.classList.remove("reveal", "is-in"), 1000 + delay);
+        setTimeout(() => el.classList.remove("reveal", "reveal--media", "is-in"), 1500 + delay);
       });
     },
     { rootMargin: "0px 0px -8% 0px" }
   );
-  items.forEach((el) => revealIo.observe(el));
+  document.querySelectorAll(".reveal").forEach((el) => revealIo.observe(el));
 }
