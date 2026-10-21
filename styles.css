@@ -403,19 +403,19 @@ button { font: inherit; }
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
   padding: clamp(28px, 3.06vw, 88px) clamp(24px, 2.78vw, 80px);
   border-right: 1px solid rgba(237, 235, 230, 0.2);
 }
 .fact:last-child { border-right: 0; }
+/* цифры первого экрана — в одном стиле с цифрами «О компании» */
 .fact__value {
-  font-size: clamp(28px, 2.5vw, 72px);
+  font-size: clamp(36px, 3.61vw, 104px);
   font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   white-space: nowrap;
 }
-.fact__label { color: rgba(237, 235, 230, 0.7); }
 .scroll-down { display: none; }
 
 /* ===== Секции ===== */
@@ -941,6 +941,7 @@ button { font: inherit; }
   .hero__facts { position: static; padding-bottom: 32px; background: var(--bg); }
   .facts { flex-direction: column; }
   .fact { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 0; border-right: 0; border-bottom: 1px solid rgba(237, 235, 230, 0.2); }
+  .fact__value { font-size: 28px; }
   .fact__label { max-width: 160px; text-align: right; }
 
   .problem { grid-template-columns: 56px 1fr; }
