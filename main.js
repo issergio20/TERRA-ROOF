@@ -187,7 +187,33 @@ let pageScrolling = false;
 
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+// Плавная прокрутка колесом: страница догоняет цель с инерцией, а не прыгает рывками
+let wheelTarget = scrollY;
+let wheelCurrent = scrollY;
+let wheelRaf = 0;
+
+function stopWheel() {
+  cancelAnimationFrame(wheelRaf);
+  wheelRaf = 0;
+}
+
+function wheelStep() {
+  wheelCurrent += (wheelTarget - wheelCurrent) * 0.1;
+  if (Math.abs(wheelTarget - wheelCurrent) < 0.5) wheelCurrent = wheelTarget;
+  scrollTo({ top: wheelCurrent, behavior: "instant" });
+  wheelRaf = wheelCurrent === wheelTarget ? 0 : requestAnimationFrame(wheelStep);
+}
+
+function smoothWheel(e) {
+  const delta = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
+  if (!wheelRaf) wheelCurrent = wheelTarget = scrollY;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  wheelTarget = Math.max(0, Math.min(max, wheelTarget + delta));
+  if (!wheelRaf) wheelRaf = requestAnimationFrame(wheelStep);
+}
+
 function smoothScrollTo(top, duration = 1100) {
+  stopWheel();
   const start = scrollY;
   const distance = top - start;
   if (Math.abs(distance) < 2) return;
@@ -232,6 +258,9 @@ addEventListener(
     } else if (e.deltaY < 0 && scrollY > 0 && scrollY <= casesTop + 2) {
       e.preventDefault();
       smoothScrollTo(0);
+    } else if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.target.closest("textarea")) {
+      e.preventDefault();
+      smoothWheel(e);
     }
   },
   { passive: false }
@@ -409,3 +438,37 @@ addEventListener("pointerup", () => {
   // после перетаскивания не считаем отпускание кликом
   if (wasMoved) servicesTrack.addEventListener("click", (e) => e.preventDefault(), { capture: true, once: true });
 });
+
+// Появление блоков при прокрутке: мини-заголовки, заголовки построчно, карточки и строки списков — лесенкой
+if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+  const revealSelector = [
+    ".hero__title > span", ".hero__lead", ".hero__btn", ".fact",
+    ".eyebrow", ".section__title > span", ".cases__title > span", ".section__lead", ".about__badge",
+    ".problem", ".approach__fact", ".principle", ".service", ".materials__title", ".material",
+    ".case", ".stat", ".why", ".btn-ghost", ".awards__count", ".award", ".step",
+    ".section__cta", ".cases__cta", ".services__nav", ".contact__list li", ".lead-form", ".footer__wordmark",
+  ].join(", ");
+  const items = document.querySelectorAll(`main ${revealSelector.replaceAll(", ", ", main ")}, .footer__wordmark`);
+  items.forEach((el) => el.classList.add("reveal"));
+  items.forEach((el) => {
+    const index = [...el.parentElement.children].filter((c) => c.classList.contains("reveal")).indexOf(el);
+    el.style.setProperty("--reveal-delay", `${Math.min(index, 5) * 90}ms`);
+  });
+  document.documentElement.classList.add("has-reveal");
+
+  const revealIo = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        revealIo.unobserve(el);
+        el.classList.add("is-in");
+        // после появления возвращаем элементу его собственные переходы (наведение и т. п.)
+        const delay = parseFloat(el.style.getPropertyValue("--reveal-delay")) || 0;
+        setTimeout(() => el.classList.remove("reveal", "is-in"), 1000 + delay);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px" }
+  );
+  items.forEach((el) => revealIo.observe(el));
+}

@@ -1279,6 +1279,16 @@ body.modal-open { overflow: hidden; }
   .calc .case-modal__close { position: fixed; top: 12px; right: 12px; }
 }
 
+/* ===== Появление при прокрутке (классы ставит main.js) ===== */
+.has-reveal .reveal {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+}
+.has-reveal .reveal.is-in { opacity: 1; transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
