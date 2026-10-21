@@ -448,7 +448,7 @@ button { font: inherit; }
   line-height: 1.55;
   color: rgba(237, 235, 230, 0.82);
 }
-.section__cta { margin-top: clamp(48px, 4.44vw, 128px); }
+.section__cta { display: flex; justify-content: center; margin-top: clamp(48px, 4.44vw, 128px); }
 
 /* заголовок слева закреплён, контент справа */
 .split {
@@ -459,6 +459,16 @@ button { font: inherit; }
 }
 .split__head { position: sticky; top: calc(clamp(56px, 4.44vw, 104px) + 32px); }
 .split__head .section__title { margin-bottom: 0; }
+
+/* мини-заголовок слева, заголовок справа; нижний элемент левой колонки прижат к низу */
+.split--rail { align-items: stretch; }
+.split__rail { display: flex; flex-direction: column; align-items: flex-start; }
+.split__rail .eyebrow:not(:has(+ .section__title)) { height: calc(clamp(30px, 3.33vw, 96px) * 1.05); margin-bottom: 0; }
+.split__rail > :last-child:not(.eyebrow) { margin-top: auto; padding-top: clamp(32px, 3.33vw, 96px); }
+.split__rail > .stats { align-self: stretch; }
+.split__rail + .split__body > .section__title:last-child,
+.split__rail + .split__body > .cases__title:last-child { margin-bottom: 0; }
+.split--rail + * { margin-top: clamp(40px, 4.44vw, 128px); }
 
 /* мини-заголовок «—— 01 Название» над заголовком раздела */
 .eyebrow {
@@ -488,7 +498,16 @@ button { font: inherit; }
 }
 
 /* ===== Ошибки подрядчиков: строки с крупными номерами ===== */
-.problems { border-top: 1px solid var(--line-dark); }
+/* две колонки по сетке раздела: 01–02 слева, 03–04 справа */
+.problems {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  column-gap: clamp(40px, 5.56vw, 160px);
+}
+.problem:nth-child(odd) { border-top: 1px solid var(--line-dark); }
 .problem {
   display: grid;
   grid-template-columns: clamp(72px, 7.64vw, 220px) 1fr;
@@ -516,7 +535,7 @@ button { font: inherit; }
 .problem:hover .problem__title { transform: translateX(8px); }
 
 /* ===== Как мы работаем ===== */
-.approach__facts { display: flex; flex-wrap: wrap; gap: clamp(24px, 2.78vw, 80px); margin-top: clamp(32px, 3.33vw, 96px); }
+.approach__facts { display: flex; flex-direction: column; gap: clamp(24px, 2.78vw, 80px); }
 .approach__fact { display: flex; flex-direction: column; gap: 12px; }
 .approach__value {
   font-size: clamp(48px, 4.44vw, 128px);
@@ -587,18 +606,17 @@ button { font: inherit; }
 }
 .material__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 600; line-height: 1.25; }
 
-/* ===== Кейсы: крупные строки, фото меняет сторону через одну ===== */
+/* ===== Кейсы: текст слева, фото справа — по сетке раздела ===== */
 .cases__grid { display: grid; gap: clamp(64px, 6.94vw, 200px); }
 .case {
   display: grid;
-  grid-template-columns: 7fr 5fr;
+  grid-template-columns: 5fr 7fr;
   grid-template-rows: auto 1fr;
-  grid-template-areas: "media head" "media body";
-  column-gap: clamp(32px, 4.44vw, 128px);
+  grid-template-areas: "head media" "body media";
+  column-gap: clamp(40px, 5.56vw, 160px);
   align-items: start;
   color: inherit;
 }
-.case:nth-child(even) { grid-template-columns: 5fr 7fr; grid-template-areas: "head media" "body media"; }
 .case:focus-visible { outline: 2px solid var(--accent); outline-offset: 8px; }
 .case__media { grid-area: media; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card); background: var(--bg); }
 .case__photo {
@@ -662,7 +680,7 @@ button { font: inherit; }
 .case__more:hover,
 .case:active .case__more { background: var(--accent); color: var(--ink); }
 .case__more:hover svg { transform: translate(2px, -2px); }
-.cases__cta { margin-top: clamp(64px, 6.94vw, 200px); }
+.cases__cta { display: flex; justify-content: center; margin-top: clamp(64px, 6.94vw, 200px); }
 
 /* ===== О компании: фото на всю ширину ===== */
 .about { position: relative; display: flex; min-height: max(720px, 100svh); overflow: hidden; color: var(--on-dark); }
@@ -673,19 +691,14 @@ button { font: inherit; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(14, 14, 12, 0.92) 0%, rgba(14, 14, 12, 0.6) 45%, rgba(14, 14, 12, 0.2) 100%),
+    linear-gradient(90deg, rgba(14, 14, 12, 0.9) 0%, rgba(14, 14, 12, 0.66) 45%, rgba(14, 14, 12, 0.5) 100%),
     linear-gradient(0deg, rgba(14, 14, 12, 0.95) 0%, rgba(14, 14, 12, 0) 45%);
 }
 .about__inner {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(48px, 5.56vw, 160px);
   padding-top: var(--section-y);
   padding-bottom: var(--section-y);
 }
-.about__text { max-width: min(100%, 52vw); }
 .about__text .section__title { margin-bottom: 0; }
 .about__badge {
   display: inline-flex;
@@ -700,13 +713,9 @@ button { font: inherit; }
   color: var(--accent-soft);
 }
 .about__badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--gap);
-  padding-top: clamp(24px, 2.22vw, 56px);
-  border-top: 1px solid rgba(237, 235, 230, 0.2);
-}
+/* цифры друг под другом в левой колонке, прижаты к низу */
+.stats { display: grid; gap: clamp(20px, 1.94vw, 48px); }
+.stat { padding-top: clamp(16px, 1.39vw, 32px); border-top: 1px solid rgba(237, 235, 230, 0.2); }
 .stat { display: flex; flex-direction: column; gap: 10px; }
 .stat__value { font-size: clamp(36px, 3.61vw, 104px); font-weight: 500; line-height: 1; letter-spacing: -0.03em; white-space: nowrap; }
 
@@ -727,7 +736,7 @@ button { font: inherit; }
 .why__text { margin-top: 10px; }
 
 /* ===== Награды ===== */
-.awards__count { display: flex; align-items: flex-end; gap: 16px; margin-top: clamp(32px, 3.33vw, 96px); }
+.awards__count { display: flex; align-items: flex-end; gap: 16px; }
 .awards__count-value { font-size: clamp(120px, 13.89vw, 400px); font-weight: 600; line-height: 0.8; letter-spacing: -0.05em; color: var(--accent); }
 .awards__count-label { max-width: 9em; }
 .award-list { border-top: 1px solid var(--line-dark); }
@@ -843,6 +852,14 @@ button { font: inherit; }
   .contacts__phone { display: none; }
   .split { grid-template-columns: 1fr; }
   .split__head { position: static; }
+  /* в одну колонку: мини-заголовок, заголовок с контентом, затем нижний элемент левой колонки */
+  .split--rail { row-gap: 0; align-content: start; }
+  .split__rail { display: contents; }
+  .split__rail .eyebrow:not(:has(+ .section__title)) { height: auto; margin-bottom: clamp(14px, 1.25vw, 28px); }
+  .split__rail > :last-child:not(.eyebrow) { order: 1; margin-top: clamp(32px, 3.33vw, 96px); padding-top: 0; }
+  .problems { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
+  .problem:nth-child(odd) { border-top: 0; }
+  .problem:first-child { border-top: 1px solid var(--line-dark); }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
   .steps::before { display: none; }

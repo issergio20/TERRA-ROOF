@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600;700&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=15">
 </head>
 <body>
 
@@ -109,15 +109,16 @@
     <!-- Ошибки подрядчиков. Тексты блоков ниже — черновик: в ТЗ есть только структура и факты.
          Сетка «заголовок слева (закреплён) — контент справа» -->
     <section class="section" id="problems">
-      <div class="container split">
-        <div class="split__head">
+      <div class="container split split--rail">
+        <div class="split__rail">
           <p class="eyebrow"><span>01</span>Ошибки подрядчиков</p>
+        </div>
+        <div class="split__body">
           <h2 class="section__title">
             <span class="section__title-main">Ошибки подрядчиков,</span>
             <span class="section__title-sub">за&nbsp;которые платит владелец</span>
           </h2>
         </div>
-        <div class="split__body">
           <ol class="problems">
             <li class="problem">
               <span class="problem__num">01</span>
@@ -140,19 +141,14 @@
               <p class="problem__text">Дешёвые материалы и&nbsp;нарушенная технология: через пару лет кровлю снимают и&nbsp;делают заново.</p>
             </li>
           </ol>
-        </div>
       </div>
     </section>
 
     <!-- Как мы работаем -->
     <section class="section section--alt" id="approach">
-      <div class="container split">
-        <div class="split__head">
+      <div class="container split split--rail">
+        <div class="split__rail">
           <p class="eyebrow"><span>02</span>Подход</p>
-          <h2 class="section__title">
-            <span class="section__title-main">Как мы работаем,</span>
-            <span class="section__title-sub">чтобы не&nbsp;пришлось переделывать</span>
-          </h2>
           <div class="approach__facts">
             <div class="approach__fact">
               <span class="approach__value">0&nbsp;₽</span>
@@ -165,6 +161,10 @@
           </div>
         </div>
         <div class="split__body">
+          <h2 class="section__title">
+            <span class="section__title-main">Как мы работаем,</span>
+            <span class="section__title-sub">чтобы не&nbsp;пришлось переделывать</span>
+          </h2>
           <ul class="principles">
             <li class="principle">
               <h3 class="principle__title">Сначала замер, потом смета</h3>
@@ -285,11 +285,17 @@
     <!-- Кейсы -->
     <section class="cases" id="cases">
       <div class="container cases__inner">
-        <p class="eyebrow"><span>04</span>Кейсы</p>
-        <h2 class="cases__title">
-          <span class="hero__title-main">Отвечаем за результат</span>
-          <span class="cases__title-sub">репутацией и&nbsp;именем компании</span>
-        </h2>
+        <div class="split split--rail">
+          <div class="split__rail">
+            <p class="eyebrow"><span>04</span>Кейсы</p>
+          </div>
+          <div class="split__body">
+            <h2 class="cases__title">
+              <span class="hero__title-main">Отвечаем за результат</span>
+              <span class="cases__title-sub">репутацией и&nbsp;именем компании</span>
+            </h2>
+          </div>
+        </div>
 
         <div class="cases__grid">
           <a class="case" href="#case-castle">
@@ -388,9 +394,17 @@
     <!-- О компании: фото на всю ширину, текст и цифры поверх -->
     <section class="about" id="about">
       <div class="about__media"><img class="is-darkened" src="img/glagolevo.jpg" alt="Кровля загородного дома в КП «Глаголево-парк»" loading="lazy"></div>
-      <div class="container about__inner">
-        <div class="about__text">
+      <div class="container split split--rail about__inner">
+        <div class="split__rail">
           <p class="eyebrow"><span>05</span>О компании</p>
+          <ul class="stats">
+            <li class="stat"><span class="stat__value">500+</span><span class="stat__label">проектов</span></li>
+            <li class="stat"><span class="stat__value">150&nbsp;000&nbsp;м²</span><span class="stat__label">смонтированных кровель</span></li>
+            <li class="stat"><span class="stat__value">25+</span><span class="stat__label">мастеров в&nbsp;штате</span></li>
+            <li class="stat"><span class="stat__value">8</span><span class="stat__label">наград</span></li>
+          </ul>
+        </div>
+        <div class="split__body about__text">
           <h2 class="section__title">
             <span class="section__title-main">О компании:</span>
             <span class="section__title-sub">с&nbsp;2012 года на&nbsp;кровлях</span>
@@ -398,19 +412,13 @@
           <p class="section__lead">Terra Roof — кровельный подрядчик полного цикла. Монтируем плоские и&nbsp;скатные кровли для загородных домов, коттеджей и&nbsp;террас: от&nbsp;замера и&nbsp;сметы до&nbsp;сдачи объекта и&nbsp;гарантийного обслуживания.</p>
           <p class="about__badge"><span class="about__badge-dot" aria-hidden="true"></span>Авторизованный подрядчик ТехноНИКОЛЬ</p>
         </div>
-        <ul class="stats">
-            <li class="stat"><span class="stat__value">500+</span><span class="stat__label">проектов</span></li>
-            <li class="stat"><span class="stat__value">150&nbsp;000&nbsp;м²</span><span class="stat__label">смонтированных кровель</span></li>
-            <li class="stat"><span class="stat__value">25+</span><span class="stat__label">мастеров в&nbsp;штате</span></li>
-            <li class="stat"><span class="stat__value">8</span><span class="stat__label">наград</span></li>
-        </ul>
       </div>
     </section>
 
     <!-- Почему выбирают нас -->
     <section class="section" id="why">
-      <div class="container split">
-        <div class="split__head">
+      <div class="container split split--rail">
+        <div class="split__rail">
           <p class="eyebrow"><span>06</span>Преимущества</p>
           <h2 class="section__title">
             <span class="section__title-main">Почему</span>
@@ -451,16 +459,16 @@
 
     <!-- Награды и признание -->
     <section class="section section--alt" id="awards">
-      <div class="container split">
-        <div class="split__head">
+      <div class="container split split--rail">
+        <div class="split__rail">
           <p class="eyebrow"><span>07</span>Награды</p>
+          <p class="awards__count"><span class="awards__count-value">8</span><span class="awards__count-label">наград и&nbsp;дипломов</span></p>
+        </div>
+        <div class="split__body">
           <h2 class="section__title">
             <span class="section__title-main">Награды</span>
             <span class="section__title-sub">и&nbsp;признание</span>
           </h2>
-          <p class="awards__count"><span class="awards__count-value">8</span><span class="awards__count-label">наград и&nbsp;дипломов</span></p>
-        </div>
-        <div class="split__body">
           <ul class="award-list">
             <li class="award">
               <h3 class="award__title">Гран-при премии «Лучший кровельщик»</h3>
@@ -482,11 +490,17 @@
     <!-- Процесс работы: таймлайн -->
     <section class="section" id="process">
       <div class="container">
-        <p class="eyebrow"><span>08</span>Процесс работы</p>
-        <h2 class="section__title">
-            <span class="section__title-main">Процесс работы:</span>
-            <span class="section__title-sub">4&nbsp;этапа</span>
-          </h2>
+        <div class="split split--rail">
+          <div class="split__rail">
+            <p class="eyebrow"><span>08</span>Процесс работы</p>
+          </div>
+          <div class="split__body">
+            <h2 class="section__title">
+              <span class="section__title-main">Процесс работы:</span>
+              <span class="section__title-sub">4&nbsp;этапа</span>
+            </h2>
+          </div>
+        </div>
         <ol class="steps">
           <li class="step">
             <span class="step__dot" aria-hidden="true"></span>
@@ -740,7 +754,7 @@
     </form>
   </dialog>
 
-  <script src="cases-data.js?v=14"></script>
-  <script src="main.js?v=14"></script>
+  <script src="cases-data.js?v=15"></script>
+  <script src="main.js?v=15"></script>
 </body>
 </html>
