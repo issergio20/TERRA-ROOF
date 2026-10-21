@@ -599,7 +599,7 @@ button { font: inherit; }
 }
 .material__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 600; line-height: 1.25; }
 
-/* ===== Кейсы: текст слева, фото справа (во втором — наоборот) ===== */
+/* ===== Кейсы: текст и фото меняются сторонами через один ===== */
 .cases__grid { display: grid; gap: clamp(64px, 6.94vw, 200px); }
 .case {
   display: grid;
@@ -610,7 +610,7 @@ button { font: inherit; }
   align-items: start;
   color: inherit;
 }
-.case:nth-child(2) { grid-template-columns: 7fr 5fr; grid-template-areas: "media head" "media body"; }
+.case:nth-child(even) { grid-template-columns: 7fr 5fr; grid-template-areas: "media head" "media body"; }
 .case:focus-visible { outline: 2px solid var(--accent); outline-offset: 8px; }
 .case__media { grid-area: media; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card); background: var(--bg); }
 .case__photo {
