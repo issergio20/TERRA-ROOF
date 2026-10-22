@@ -12,7 +12,7 @@
   --paper: #ffffff;
   --ink: #1e1d1a;
   --ink-2: #4a4741;
-  --muted: #8b877f;
+  --muted: #625e57; /* ≥4.5:1 на #f2f1ee, #e9e7e2, #fff и плитке #dcd8d0 */
   --line: rgba(30, 29, 26, 0.14);
   --accent: #ffa800;
   --accent-hover: #ffba33;
@@ -71,7 +71,7 @@ button { font: inherit; }
 .case-modal__h,
 .footer__nav a {
   font-family: var(--mono);
-  font-size: clamp(11px, 0.83vw, 16px);
+  font-size: clamp(12px, 0.83vw, 16px);
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -139,7 +139,7 @@ button { font: inherit; }
   height: clamp(56px, 4.44vw, 104px);
   padding: 0 clamp(16px, 1.67vw, 40px);
   border-radius: 12px;
-  background: rgba(30, 29, 26, 0.55);
+  background: rgba(30, 29, 26, 0.8); /* над светлыми блоками текст шапки должен читаться */
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   backdrop-filter: blur(16px) saturate(1.2);
 }
@@ -181,7 +181,7 @@ button { font: inherit; }
 }
 .icon-btn svg { width: clamp(16px, 1.11vw, 24px); height: auto; }
 .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
-.icon-btn--text { font-family: var(--mono); font-size: clamp(9px, 0.62vw, 13px); font-weight: 500; }
+.icon-btn--text { font-family: var(--mono); font-size: clamp(11px, 0.69vw, 13px); font-weight: 500; }
 .contacts__call, .burger { display: none; }
 
 /* ===== Первый экран ===== */
@@ -245,10 +245,10 @@ button { font: inherit; }
 .fact__value {
   grid-column: 2;
   grid-row: 1;
-  font-size: clamp(56px, 8.33vw, 240px);
+  font-size: clamp(48px, 4.44vw, 128px); /* не крупнее 0.8 от H1 */
   font-weight: 300;
   line-height: 0.9;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
   white-space: nowrap;
 }
 .scroll-down { display: none; }
@@ -285,7 +285,7 @@ button { font: inherit; }
 .section__title-sub,
 .cases__title > span { display: block; }
 .section__title-sub,
-.cases__title-sub { font-weight: 300; color: var(--muted); }
+.cases__title-sub { font-weight: 300; color: var(--ink); }
 .section__lead {
   max-width: 36em;
   font-size: clamp(17px, 1.25vw, 28px);
@@ -301,7 +301,19 @@ button { font: inherit; }
   margin-bottom: clamp(20px, 2.22vw, 56px);
   font-family: var(--mono);
   font-size: clamp(12px, 0.9vw, 18px);
-  color: var(--accent);
+  color: var(--ink);
+}
+/* жёлтый остаётся чертой перед номером: на светлом фоне жёлтые цифры не читаются */
+.problem__num::before,
+.why__num::before,
+.step__num::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  margin: 0 10px 0.3em 0;
+  background: var(--accent);
+  vertical-align: middle;
 }
 .problem__title,
 .why__title,
@@ -346,10 +358,10 @@ button { font: inherit; }
 }
 .approach__fact:first-child { padding-top: 0; }
 .approach__value {
-  font-size: clamp(56px, 6.94vw, 200px);
+  font-size: clamp(48px, 4.44vw, 128px);
   font-weight: 300;
   line-height: 0.9;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
 }
 .approach__pre { font-size: 0.5em; letter-spacing: -0.02em; }
 .approach__label { color: var(--muted); }
@@ -537,7 +549,7 @@ button { font: inherit; }
   font-weight: 300;
   line-height: 0.8;
   letter-spacing: -0.05em;
-  color: var(--accent);
+  color: var(--ink);
 }
 .awards__count-label { max-width: 10em; color: var(--muted); }
 .award-list { align-content: start; }
@@ -572,7 +584,7 @@ button { font: inherit; }
   border: 1px solid var(--line);
   border-radius: 50%;
 }
-.contact__icon--text { font-family: var(--mono); font-size: 10px; font-weight: 500; }
+.contact__icon--text { font-family: var(--mono); font-size: 12px; font-weight: 500; }
 .lead-form { padding: clamp(24px, 2.78vw, 64px); border-radius: var(--radius); background: var(--paper); }
 .lead-form__fields { display: grid; gap: 20px; }
 .lead-form__fields .calc__consent { margin-top: 0; }
@@ -586,7 +598,7 @@ button { font: inherit; }
   width: 100%;
   height: 52px;
   padding: 0 16px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(30, 29, 26, 0.45);
   border-radius: var(--radius);
   background: var(--bg);
   color: var(--ink);
@@ -594,7 +606,7 @@ button { font: inherit; }
   font-size: 16px; /* меньше 16px — iOS приближает страницу при фокусе */
   transition: border-color 0.2s;
 }
-.calc__input::placeholder { color: rgba(30, 29, 26, 0.35); }
+.calc__input::placeholder { color: var(--muted); }
 .calc__input:focus { outline: none; border-color: var(--ink); }
 .calc__input[aria-invalid="true"] { border-color: var(--danger); }
 .calc__input--area { height: auto; min-height: 96px; padding-top: 14px; padding-bottom: 14px; resize: vertical; line-height: 1.5; }
@@ -605,14 +617,15 @@ button { font: inherit; }
 .calc__consent {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-top: 24px;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 10px 0;
   font-size: 14px;
   line-height: 1.45;
   color: var(--ink-2);
   cursor: pointer;
 }
-.calc__consent input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--ink); }
+.calc__consent input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--ink); }
 .calc__success-icon {
   display: grid;
   place-items: center;
@@ -763,9 +776,9 @@ body.modal-open { overflow: hidden; }
 .calc__chip span {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 16px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(30, 29, 26, 0.45);
   border-radius: var(--radius);
   font-size: 15px;
   cursor: pointer;
@@ -773,13 +786,64 @@ body.modal-open { overflow: hidden; }
 }
 .calc__chip span:hover { border-color: var(--ink); }
 .calc__chip input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--bg); }
-.calc__chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.calc__chip input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
 .calc__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .calc__row + .calc__field,
 .calc__group + .calc__field { margin-top: 28px; }
 .calc__submit { width: 100%; margin-top: 24px; }
 .calc__success { text-align: center; padding: 24px 0 8px; }
 .calc__success .btn { margin-top: 28px; }
+
+
+/* ===== Анкета по шагам: прогресс, панель с кнопками внизу окна ===== */
+.calc [hidden] { display: none !important; }
+.calc__progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 24px; }
+.calc__progress span { height: 3px; border-radius: 3px; background: var(--line); transition: background-color 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.calc__progress span.is-done { background: var(--ink); }
+.calc__step-label { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.calc__step > :first-child { margin-top: 28px; }
+.calc__step:not([hidden]) { animation: calc-step-in 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
+@keyframes calc-step-in { from { opacity: 0; transform: translateX(12px); } }
+.calc__trust { margin-top: 10px; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.calc__consent a { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; }
+.calc__nav {
+  position: sticky;
+  bottom: calc(-1 * clamp(28px, 2.78vw, 56px));
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px calc(-1 * clamp(28px, 2.78vw, 56px)) calc(-1 * clamp(28px, 2.78vw, 56px));
+  padding: 16px clamp(28px, 2.78vw, 56px) clamp(20px, 2.22vw, 40px);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.calc__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px 0 4px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.calc__back:hover,
+.calc__back:focus-visible { color: var(--ink); }
+.calc__nav .calc__next,
+.calc__nav .calc__submit { width: auto; margin: 0 0 0 auto; }
+.calc__success .calc__title:focus,
+.lead-form__success .calc__title:focus { outline: none; }
+.calc__lead strong { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.calc__success-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+.calc__success .calc__success-actions .btn { margin-top: 0; }
 
 /* ===== Курсор: инвертируется на любом фоне ===== */
 .cursor { display: none; }
@@ -889,6 +953,15 @@ html.has-cursor .cursor { display: block; }
     text-transform: uppercase;
   }
   .mobile-menu__phone { font-family: var(--mono); font-size: 20px; }
+  .mobile-menu__actions { display: grid; gap: 20px; }
+  .mobile-menu__cta { width: 100%; justify-content: center; }
+  .contacts .icon-btn,
+  .burger { width: 44px; height: 44px; }
+  .footer__nav { gap: 0; }
+  .footer__nav a { display: block; padding: 13px 0; }
+  .footer__bottom a { display: inline-block; padding: 13px 0; }
+  .footer__phone { display: inline-block; padding: 8px 0; }
+
   body.menu-open { overflow: hidden; }
 
   .hero__media img { object-position: 74% center; }
@@ -953,6 +1026,9 @@ html.has-cursor .cursor { display: block; }
 }
 
 @media (max-width: 600px) {
+  .calc__nav { bottom: -32px; margin: 28px -16px -32px; padding: 12px 16px 16px; }
+  .calc__nav .calc__next,
+  .calc__nav .calc__submit { flex: 1; justify-content: center; }
   .calc-modal { width: 100%; max-height: 100dvh; height: 100%; border-radius: 0; }
   .calc { padding: 64px 16px 32px; }
   .calc__row { grid-template-columns: 1fr; }

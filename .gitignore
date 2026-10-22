@@ -4,3 +4,6 @@ img/фон.png
 # служебное
 .DS_Store
 Thumbs.db
+
+# отчёты impeccable
+.impeccable/

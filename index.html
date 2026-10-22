@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600;700&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
 
@@ -52,7 +52,11 @@
       <a href="#awards">Награды</a>
       <a href="#contacts">Контакты</a>
     </nav>
-    <a class="mobile-menu__phone" href="tel:+79000000000">+7 (900) 000-00-00</a>
+    <div class="mobile-menu__actions">
+      <a class="btn mobile-menu__cta" href="#calc" data-calc><span class="btn__label">Рассчитать стоимость
+        <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span></a>
+      <a class="mobile-menu__phone" href="tel:+79000000000">+7 (900) 000-00-00</a>
+    </div>
   </div>
 
   <main>
@@ -568,9 +572,10 @@
                 <span class="calc__label">Комментарий</span>
                 <textarea class="calc__input calc__input--area" name="comment" rows="3" placeholder="Например: плоская кровля 200 м², нужна реконструкция"></textarea>
               </label>
+              <p class="calc__trust">Номер нужен только для звонка инженера — без рассылок и&nbsp;передачи третьим лицам.</p>
               <label class="calc__consent">
                 <input type="checkbox" name="consent" required>
-                <span>Согласен на&nbsp;обработку персональных данных</span>
+                <span>Согласен на&nbsp;обработку персональных данных по&nbsp;<a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span>
               </label>
               <span class="calc__error" data-error="consent"></span>
               <button class="btn lead-form__submit" type="submit" data-cta>
@@ -578,12 +583,12 @@
                 <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>
               </button>
             </div>
-            <div class="lead-form__success" hidden>
+            <div class="lead-form__success" role="status" hidden>
               <span class="calc__success-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="28" height="28"><path d="M5 12.5 10 17l9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <h3 class="calc__title">Заявка отправлена</h3>
-              <p class="calc__lead">Инженер свяжется с&nbsp;вами, уточнит детали и&nbsp;рассчитает стоимость.</p>
+              <h3 class="calc__title" tabindex="-1">Заявка принята</h3>
+              <p class="calc__lead">Инженер перезвонит на&nbsp;<strong data-success-phone></strong> в&nbsp;ближайшее рабочее время, уточнит детали и&nbsp;рассчитает стоимость.</p>
             </div>
           </form>
         </div>
@@ -620,7 +625,7 @@
       <p class="footer__wordmark" aria-hidden="true">TERRA ROOF</p>
       <div class="footer__bottom">
         <p>© 2012–2026 Terra Roof</p>
-        <a href="#">Политика конфиденциальности</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
       </div>
     </div>
   </footer>
@@ -679,80 +684,104 @@
 
     <form class="calc" novalidate>
       <div class="calc__form">
-        <h2 class="calc__title" id="calc-title">Рассчитать стоимость</h2>
-        <p class="calc__lead">Ответьте на пару вопросов — инженер перезвонит, уточнит детали и&nbsp;назовёт стоимость. Выезд инженера на&nbsp;объект бесплатный.</p>
+        <div class="calc__head">
+          <h2 class="calc__title" id="calc-title">Рассчитать стоимость</h2>
+          <p class="calc__lead">Три коротких шага — инженер перезвонит, уточнит детали и&nbsp;назовёт стоимость. Выезд инженера на&nbsp;объект бесплатный.</p>
+          <div class="calc__progress" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="calc__step-label" aria-live="polite">Шаг <span data-step-num>1</span> из&nbsp;3 · <span data-step-name>Кровля</span></p>
+        </div>
 
-        <fieldset class="calc__group">
-          <legend class="calc__label">Какая кровля</legend>
-          <div class="calc__chips">
-            <label class="calc__chip"><input type="radio" name="roof" value="Плоская"><span>Плоская</span></label>
-            <label class="calc__chip"><input type="radio" name="roof" value="Скатная"><span>Скатная</span></label>
-            <label class="calc__chip"><input type="radio" name="roof" value="Эксплуатируемая"><span>Эксплуатируемая (терраса)</span></label>
-            <label class="calc__chip"><input type="radio" name="roof" value="Не знаю"><span>Пока не&nbsp;знаю</span></label>
-          </div>
-        </fieldset>
+        <div class="calc__step" data-step="1" data-name="Кровля">
+          <fieldset class="calc__group">
+            <legend class="calc__label">Какая кровля</legend>
+            <div class="calc__chips">
+              <label class="calc__chip"><input type="radio" name="roof" value="Плоская"><span>Плоская</span></label>
+              <label class="calc__chip"><input type="radio" name="roof" value="Скатная"><span>Скатная</span></label>
+              <label class="calc__chip"><input type="radio" name="roof" value="Эксплуатируемая"><span>Эксплуатируемая (терраса)</span></label>
+              <label class="calc__chip"><input type="radio" name="roof" value="Не знаю"><span>Пока не&nbsp;знаю</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="calc__group">
+            <legend class="calc__label">Что нужно сделать</legend>
+            <div class="calc__chips">
+              <label class="calc__chip"><input type="radio" name="work" value="Новая кровля"><span>Новая кровля</span></label>
+              <label class="calc__chip"><input type="radio" name="work" value="Реконструкция"><span>Реконструкция</span></label>
+              <label class="calc__chip"><input type="radio" name="work" value="Ремонт"><span>Ремонт или протечка</span></label>
+            </div>
+          </fieldset>
+        </div>
 
-        <fieldset class="calc__group">
-          <legend class="calc__label">Что нужно сделать</legend>
-          <div class="calc__chips">
-            <label class="calc__chip"><input type="radio" name="work" value="Новая кровля"><span>Новая кровля</span></label>
-            <label class="calc__chip"><input type="radio" name="work" value="Реконструкция"><span>Реконструкция</span></label>
-            <label class="calc__chip"><input type="radio" name="work" value="Ремонт"><span>Ремонт или протечка</span></label>
-          </div>
-        </fieldset>
-
-        <label class="calc__field">
-          <span class="calc__label">Площадь кровли, м²</span>
-          <input class="calc__input" type="number" name="area" inputmode="numeric" min="1" placeholder="Например, 250">
-          <span class="calc__hint">Если не&nbsp;знаете — оставьте пустым, инженер посчитает</span>
-        </label>
-
-        <div class="calc__row">
+        <div class="calc__step" data-step="2" data-name="Площадь" hidden>
           <label class="calc__field">
-            <span class="calc__label">Имя</span>
-            <input class="calc__input" type="text" name="name" autocomplete="name" placeholder="Как к вам обращаться" required>
-            <span class="calc__error" data-error="name"></span>
-          </label>
-          <label class="calc__field">
-            <span class="calc__label">Телефон</span>
-            <input class="calc__input" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
-            <span class="calc__error" data-error="phone"></span>
+            <span class="calc__label">Площадь кровли, м²</span>
+            <input class="calc__input" type="text" name="area" inputmode="numeric" autocomplete="off" placeholder="Например, 250" aria-describedby="calc-area-hint">
+            <span class="calc__hint" id="calc-area-hint">Если не&nbsp;знаете — оставьте пустым, инженер посчитает на&nbsp;замере</span>
+            <span class="calc__error" data-error="area"></span>
           </label>
         </div>
 
-        <fieldset class="calc__group">
-          <legend class="calc__label">Как удобнее связаться</legend>
-          <div class="calc__chips">
-            <label class="calc__chip"><input type="radio" name="contact" value="Звонок" checked><span>Звонок</span></label>
-            <label class="calc__chip"><input type="radio" name="contact" value="Telegram"><span>Telegram</span></label>
-            <label class="calc__chip"><input type="radio" name="contact" value="Max"><span>Max</span></label>
+        <div class="calc__step" data-step="3" data-name="Контакты" hidden>
+          <div class="calc__row">
+            <label class="calc__field">
+              <span class="calc__label">Имя</span>
+              <input class="calc__input" type="text" name="name" autocomplete="name" placeholder="Как к вам обращаться" required>
+              <span class="calc__error" data-error="name"></span>
+            </label>
+            <label class="calc__field">
+              <span class="calc__label">Телефон</span>
+              <input class="calc__input" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
+              <span class="calc__error" data-error="phone"></span>
+            </label>
           </div>
-        </fieldset>
+          <p class="calc__trust">Номер нужен только для звонка инженера — без рассылок и&nbsp;передачи третьим лицам.</p>
 
-        <label class="calc__consent">
-          <input type="checkbox" name="consent" required>
-          <span>Согласен на&nbsp;обработку персональных данных</span>
-        </label>
-        <span class="calc__error" data-error="consent"></span>
+          <fieldset class="calc__group">
+            <legend class="calc__label">Как удобнее связаться</legend>
+            <div class="calc__chips">
+              <label class="calc__chip"><input type="radio" name="contact" value="Звонок" checked><span>Звонок</span></label>
+              <label class="calc__chip"><input type="radio" name="contact" value="Telegram"><span>Telegram</span></label>
+              <label class="calc__chip"><input type="radio" name="contact" value="Max"><span>Max</span></label>
+            </div>
+          </fieldset>
 
-        <button class="btn calc__submit" type="submit">
-          <span class="btn__label">Отправить заявку
-          <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>
-        </button>
+          <label class="calc__consent">
+            <input type="checkbox" name="consent" required>
+            <span>Согласен на&nbsp;обработку персональных данных по&nbsp;<a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span>
+          </label>
+          <span class="calc__error" data-error="consent"></span>
+        </div>
+
+        <div class="calc__nav">
+          <button class="calc__back" type="button" data-calc-back hidden>
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            Назад
+          </button>
+          <button class="btn calc__next" type="button" data-calc-next>
+            <span class="btn__label">Далее
+            <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </button>
+          <button class="btn calc__submit" type="submit" hidden>
+            <span class="btn__label">Отправить заявку
+            <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </button>
+        </div>
       </div>
 
-      <div class="calc__success" hidden>
+      <div class="calc__success" role="status" hidden>
         <span class="calc__success-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="28" height="28"><path d="M5 12.5 10 17l9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
-        <h2 class="calc__title">Заявка отправлена</h2>
-        <p class="calc__lead">Инженер свяжется с&nbsp;вами, уточнит детали и&nbsp;рассчитает стоимость.</p>
-        <button class="btn" type="button" data-close><span class="btn__label">Хорошо</span></button>
+        <h2 class="calc__title" tabindex="-1">Заявка принята</h2>
+        <p class="calc__lead">Инженер перезвонит на&nbsp;<strong data-success-phone></strong> в&nbsp;ближайшее рабочее время, уточнит детали и&nbsp;назовёт стоимость.</p>
+        <div class="calc__success-actions">
+          <a class="btn-ghost" href="#cases" data-close>Посмотреть кейсы</a>
+          <button class="btn" type="button" data-close><span class="btn__label">Хорошо</span></button>
+        </div>
       </div>
     </form>
   </dialog>
 
   <script src="cases-data.js?v=19"></script>
-  <script src="main.js?v=21"></script>
+  <script src="main.js?v=23"></script>
 </body>
 </html>

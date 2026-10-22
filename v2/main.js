@@ -273,11 +273,61 @@ document.addEventListener("click", (e) => {
   smoothScrollTo(target.getBoundingClientRect().top + scrollY);
 });
 
-// Окно «Рассчитать стоимость»
+// Окно «Рассчитать стоимость»: три шага — кровля, площадь, контакты
 const calc = document.getElementById("calc");
 const calcForm = calc.querySelector(".calc");
 const calcFormView = calc.querySelector(".calc__form");
 const calcSuccess = calc.querySelector(".calc__success");
+const calcSteps = [...calc.querySelectorAll(".calc__step")];
+const calcBack = calc.querySelector("[data-calc-back]");
+const calcNext = calc.querySelector("[data-calc-next]");
+const calcSubmit = calc.querySelector(".calc__submit");
+let calcStep = 0;
+
+function showStep(index, moveFocus = true) {
+  calcStep = index;
+  calcSteps.forEach((step, n) => (step.hidden = n !== index));
+  calc.querySelector("[data-step-num]").textContent = index + 1;
+  calc.querySelector("[data-step-name]").textContent = calcSteps[index].dataset.name;
+  calc.querySelectorAll(".calc__progress span").forEach((bar, n) => bar.classList.toggle("is-done", n <= index));
+  const last = index === calcSteps.length - 1;
+  calcBack.hidden = index === 0;
+  calcNext.hidden = last;
+  calcSubmit.hidden = !last;
+  calc.scrollTop = 0;
+  if (moveFocus) calcSteps[index].querySelector("input").focus({ preventScroll: true });
+}
+
+// площадь необязательна, но если указана — число от 1 до 100 000
+function checkArea() {
+  const input = calcForm.elements.area;
+  const raw = input.value.replace(/\s/g, "").replace(",", ".");
+  const value = Number(raw);
+  const message = !raw || (Number.isFinite(value) && value >= 1 && value <= 100000) ? "" : "Укажите площадь числом от 1 до 100 000 м² или оставьте поле пустым";
+  calcForm.querySelector('[data-error="area"]').textContent = message;
+  input.setAttribute("aria-invalid", String(Boolean(message)));
+  if (message) input.focus();
+  return !message;
+}
+
+function nextStep() {
+  if (calcStep === 1 && !checkArea()) return;
+  showStep(Math.min(calcStep + 1, calcSteps.length - 1));
+}
+
+showStep(0, false);
+calcNext.addEventListener("click", nextStep);
+calcBack.addEventListener("click", () => showStep(Math.max(calcStep - 1, 0)));
+calcForm.elements.area.addEventListener("input", () => {
+  if (calcForm.elements.area.getAttribute("aria-invalid") === "true") checkArea();
+});
+// Enter на первых шагах ведёт дальше, а не отправляет заявку
+calcForm.addEventListener("submit", (e) => {
+  if (calcStep === calcSteps.length - 1) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  nextStep();
+});
 
 function openCalc() {
   calcFormView.hidden = false;
@@ -295,6 +345,7 @@ function onCalcClosed() {
     calcForm.reset();
     calcFormView.hidden = false;
     calcSuccess.hidden = true;
+    showStep(0, false);
   }
 }
 
@@ -330,8 +381,9 @@ function formatPhone(value) {
   return out;
 }
 
-// Заявка: маска телефона, проверка имени, телефона и согласия. onSuccess — что показать после отправки.
-function bindLeadForm(form, onSuccess) {
+// Заявка: маска телефона, проверка имени, телефона и согласия.
+// После отправки показываем, на какой номер перезвонят, и переводим фокус на сообщение об успехе.
+function bindLeadForm(form, successView, onSuccess) {
   const phone = form.elements.phone;
   phone.addEventListener("input", () => {
     phone.value = phone.value.trim() ? formatPhone(phone.value) : "";
@@ -349,10 +401,16 @@ function bindLeadForm(form, onSuccess) {
     return !message;
   };
 
+  const nameError = (value) => {
+    if (!value.trim()) return "Как к вам обращаться?";
+    if (!/\p{L}/u.test(value)) return "Напишите имя буквами";
+    return "";
+  };
+
   const validate = () => {
     const f = form.elements;
     const ok = [
-      setError("name", f.name.value.trim() ? "" : "Как к вам обращаться?"),
+      setError("name", nameError(f.name.value)),
       setError("phone", f.phone.value.replace(/\D/g, "").length === 11 ? "" : "Проверьте номер: нужно 10 цифр после +7"),
       setError("consent", f.consent.checked ? "" : "Нужно согласие, чтобы мы могли вам перезвонить"),
     ];
@@ -371,20 +429,23 @@ function bindLeadForm(form, onSuccess) {
     e.preventDefault();
     if (!validate()) return;
     // TODO: отправка заявки на сервер / в CRM. Данные: Object.fromEntries(new FormData(form))
+    successView.querySelector("[data-success-phone]").textContent = phone.value;
     onSuccess();
+    successView.querySelector(".calc__title").focus({ preventScroll: true });
   });
 }
 
-bindLeadForm(calcForm, () => {
+bindLeadForm(calcForm, calcSuccess, () => {
   calcFormView.hidden = true;
   calcSuccess.hidden = false;
   calc.scrollTop = 0;
 });
 
 const leadForm = document.querySelector(".lead-form");
-bindLeadForm(leadForm, () => {
+const leadSuccess = leadForm.querySelector(".lead-form__success");
+bindLeadForm(leadForm, leadSuccess, () => {
   leadForm.querySelector(".lead-form__fields").hidden = true;
-  leadForm.querySelector(".lead-form__success").hidden = false;
+  leadSuccess.hidden = false;
 });
 
 // Появление блоков при прокрутке: заголовки построчно, карточки лесенкой, фото «открываются» снизу,
