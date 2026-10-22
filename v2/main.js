@@ -285,6 +285,7 @@ const calcSubmit = calc.querySelector(".calc__submit");
 let calcStep = 0;
 
 function showStep(index, moveFocus = true) {
+  calcForm.dataset.dir = index < calcStep ? "back" : "forward";
   calcStep = index;
   calcSteps.forEach((step, n) => (step.hidden = n !== index));
   calc.querySelector("[data-step-num]").textContent = index + 1;
