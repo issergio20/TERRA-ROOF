@@ -7,3 +7,6 @@ Thumbs.db
 
 # отчёты impeccable
 .impeccable/
+
+# отчёты design-taste-frontend
+.taste-skill/

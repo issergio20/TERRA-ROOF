@@ -611,6 +611,133 @@ button { font: inherit; }
 }
 .material__title { font-size: clamp(18px, 1.39vw, 40px); font-weight: 600; line-height: 1.25; }
 
+/* ===== Кровельный пирог: выбор типа кровли, разрез и слои (данные и логика — pie.js) ===== */
+.pie { margin-top: var(--section-y); }
+.pie__head { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 5.56vw, 160px); align-items: end; }
+.pie__title { font-family: var(--font-display); font-size: clamp(24px, 2.22vw, 64px); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; }
+.pie__lead { max-width: 36em; font-size: clamp(16px, 1.11vw, 22px); line-height: 1.55; color: var(--on-dark-muted); }
+.pie__tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(28px, 2.78vw, 64px); }
+.pie__tab {
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--line-dark);
+  border-radius: 360px;
+  background: none;
+  color: var(--on-dark);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.pie__tab:hover { border-color: rgba(255, 168, 0, 0.6); }
+.pie__tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pie__tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 600; }
+.pie__body { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 4.44vw, 128px); align-items: start; margin-top: clamp(24px, 2.22vw, 56px); }
+.pie__figure { margin: 0; padding: clamp(24px, 2.78vw, 72px); border-radius: var(--radius-card); background: var(--surface); }
+.pie__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pie__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: clamp(20px, 1.67vw, 40px);
+  font-size: 14px;
+  color: var(--on-dark-muted);
+}
+.pie__case {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--on-dark);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+.pie__case:hover { color: var(--accent); }
+.pie__layers { list-style: none; margin: 0; padding: 0; }
+.pie__layer button {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  align-items: baseline;
+  gap: 14px;
+  width: 100%;
+  min-height: 44px;
+  padding: 14px 0;
+  border: 0;
+  background: none;
+  color: var(--on-dark);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.pie__layer + .pie__layer button { box-shadow: inset 0 1px 0 var(--line-dark); }
+.pie__layer button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pie__swatch { width: 16px; height: 16px; border-radius: 3px; translate: 0 2px; }
+.pie__layer-name { font-size: clamp(16px, 1.11vw, 22px); font-weight: 600; line-height: 1.3; }
+.pie__layer-material { display: block; margin-top: 2px; font-size: 14px; font-weight: 400; color: var(--on-dark-muted); }
+.pie__layer-size { font-size: 14px; color: var(--on-dark-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pie__layer-text {
+  margin: 0;
+  padding: 0 0 16px 30px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--on-dark-muted);
+}
+.pie__layer:not(.is-active) .pie__layer-text { display: none; }
+.pie__layer.is-active .pie__layer-name { color: var(--accent); }
+.pie__note { margin-top: clamp(20px, 1.67vw, 40px); font-size: 14px; color: var(--on-dark-muted); }
+.pie__fill--membrane { fill: #b9bec2; background: #b9bec2; }
+.pie__fill--film { fill: #5f8fae; background: #5f8fae; }
+.pie__fill--geo { fill: #e6e2d8; background: #e6e2d8; }
+.pie__fill--wool { fill: #b39363; background: #b39363; }
+.pie__fill--wool-dense { fill: #9c7c4c; background: #9c7c4c; }
+.pie__fill--xps { fill: #e9852d; background: #e9852d; }
+.pie__fill--gravel { fill: #6f6c66; background: #6f6c66; }
+.pie__fill--slab { fill: #8d8a84; background: #8d8a84; }
+.pie__fill--metal { fill: #8f969b; background: #8f969b; }
+.pie__fill--metal-seam { fill: #a9b0b4; }
+.pie__fill--wood { fill: #b88a5a; background: #b88a5a; }
+.pie__fill--deck { fill: #8f6240; background: #8f6240; }
+.pie__fill--support { fill: #4b4b4a; background: #4b4b4a; }
+.pie__fill--slope { fill: #c4b49b; background: #c4b49b; }
+.pie__fill--mat { fill: #3b3b39; background: #3b3b39; }
+.pie__fill--slate { fill: #3d434b; background: #3d434b; stroke: #2a2e33; stroke-width: 1; }
+.pie__mark { fill: rgba(0, 0, 0, 0.22); }
+.pie__fill--gravel + .pie__overlay { opacity: 1; }
+.pie__stroke { fill: none; stroke: rgba(0, 0, 0, 0.2); stroke-width: 1.4; }
+.pie__hit { fill: transparent; stroke: none; cursor: pointer; }
+.pie__band { transition: opacity 0.3s; }
+.pie__svg.has-active .pie__band:not(.is-active) { opacity: 0.55; }
+.pie__case[hidden] { display: none; }
+.pie__band.is-active .pie__hit { stroke: var(--accent); stroke-width: 3; }
+@media (prefers-reduced-motion: no-preference) {
+  .pie__band {
+    transform-box: fill-box;
+    animation: pie-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+  @keyframes pie-in { from { opacity: 0; transform: translateY(-16px); } }
+}
+
+@media (max-width: 1024px) {
+  .pie__head,
+  .pie__body { grid-template-columns: 1fr; }
+  .pie__head { gap: 12px; }
+}
+@media (max-width: 768px) {
+  .pie__tab { padding: 0 16px; font-size: 14px; }
+  .pie__figure { padding: 20px 16px; }
+}
+
 /* ===== Кейсы: текст и фото меняются сторонами через один ===== */
 .cases__grid { display: grid; gap: clamp(64px, 6.94vw, 200px); }
 .case {

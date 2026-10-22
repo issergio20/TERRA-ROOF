@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=19">
 </head>
 <body>
 
@@ -234,6 +234,28 @@
             <p class="service__text">Кровли сложной архитектуры с&nbsp;сохранением облика</p>
           </li>
         </ul>
+
+        <div class="pie" data-pie>
+          <div class="pie__head">
+            <h3 class="pie__title">Что внутри кровли</h3>
+            <p class="pie__lead">Выберите тип кровли — покажем разрез: из каких слоёв и&nbsp;материалов мы&nbsp;её собираем, сверху вниз.</p>
+          </div>
+          <div class="pie__tabs" role="tablist" aria-label="Тип кровли"></div>
+          <div class="pie__body" role="tabpanel">
+            <figure class="pie__figure">
+              <svg class="pie__svg" role="img" aria-label="Разрез кровельного пирога: слои сверху вниз"></svg>
+              <figcaption class="pie__caption">
+                <span data-pie-system></span>
+                <button class="pie__case" type="button" data-pie-case hidden>Где делали: <span></span>
+                  <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                </button>
+              </figcaption>
+            </figure>
+            <ol class="pie__layers"></ol>
+          </div>
+          <p class="pie__note">Типовой состав. Точный пирог инженер подбирает после бесплатного замера на&nbsp;объекте.</p>
+          <noscript><p class="pie__lead">Плоская мембранная кровля сверху вниз: ПВХ-мембрана LOGICROOF, жёсткий и&nbsp;основной слой каменной ваты ТЕХНОРУФ, пароизоляция, профлист.</p></noscript>
+        </div>
 
         <h3 class="materials__title">Работаем с&nbsp;материалами</h3>
         <ul class="materials">
@@ -735,5 +757,6 @@
 
   <script src="cases-data.js?v=15"></script>
   <script src="main.js?v=17"></script>
+  <script src="../pie.js?v=2"></script>
 </body>
 </html>
